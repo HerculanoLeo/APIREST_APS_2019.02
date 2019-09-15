@@ -23,6 +23,7 @@ public class PopulaTabela {
 	public static void populaUsuario(UsuarioRepository usuarioRepository, OcorrenciaRepository ocorrenciaRepository,
 										ComentarioRepository comentarioRepository, TagsVeiculoRepository tagsVeiculoRepository, TagsRegionalRepository tagsRegionalRepository, 
 										TipoOcorrenciaRepository tipoOcorrenciaRepository) {
+		
 		Usuario usuarioComum = new Usuario();
 		Usuario usuarioTecnico1 = new Usuario();
 		Usuario usuarioTecnico2 = new Usuario();
