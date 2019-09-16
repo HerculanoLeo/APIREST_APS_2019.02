@@ -52,10 +52,11 @@ public class UsuarioController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	@GetMapping("/tecnicos")
-	public List<UsuarioDTO> buscarUsuarioPorROLE_TECNICO(){
+	@GetMapping("/tipo/{tipo}")
+	public List<UsuarioDTO> buscarUsuarioPorTipo(@PathVariable String tipo){
+		String tipoUpperCase = tipo.toUpperCase();
 		List<UsuarioDTO> usuariosDTO = new ArrayList<UsuarioDTO>();
-		List<Usuario> usuarios = usuarioRepository.findBytipoUsuario(TipoUsuario.ROLE_TECNICO);
+		List<Usuario> usuarios = usuarioRepository.findBytipoUsuario(TipoUsuario.valueOf("ROLE_"+tipoUpperCase));
 		usuariosDTO = usuarios.stream().map(usuario -> new UsuarioDTO(usuario)).collect(Collectors.toList());
 		return usuariosDTO;
 	}

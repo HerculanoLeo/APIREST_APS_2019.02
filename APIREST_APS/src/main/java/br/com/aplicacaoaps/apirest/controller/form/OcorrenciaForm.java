@@ -24,9 +24,9 @@ public class OcorrenciaForm {
 	private String descricao;
 	@NotBlank
 	private String tipo;
-	private Double latitude=Double.NaN, longitude=Double.NaN;
+	private int cep;
 	private String placa;
-	private List<TagsRegional> TagsRegional;
+	private List<TagsRegional> tagsRegional;
 	private List<TagsVeiculo> tagsVeiculo;
 	
 	public Long getIdAutor() {
@@ -61,20 +61,12 @@ public class OcorrenciaForm {
 		this.tipo = tipo;
 	}
 
-	public Double getLatitude() {
-		return latitude;
+	public int getCep() {
+		return cep;
 	}
 
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
-	}
-
-	public Double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
+	public void setCep(int cep) {
+		this.cep = cep;
 	}
 
 	public String getPlaca() {
@@ -86,11 +78,11 @@ public class OcorrenciaForm {
 	}
 
 	public List<TagsRegional> getTagsRegional() {
-		return TagsRegional;
+		return tagsRegional;
 	}
 
 	public void setTagsRegional(List<TagsRegional> tagsRegional) {
-		TagsRegional = tagsRegional;
+		this.tagsRegional = tagsRegional;
 	}
 
 	public List<TagsVeiculo> getTagsVeiculo() {
@@ -112,7 +104,7 @@ public class OcorrenciaForm {
 	public Ocorrencia converterTipoRegional(TipoOcorrenciaRepository tipoOcorrenciaRepository) {
 		Usuario usuario = new Usuario();
 		usuario.setId(idAutor);
-		TipoOcorrencia tipoOcorrenciaRegional = new TipoOcorrenciaRegional(latitude, longitude, TagsRegional);
+		TipoOcorrencia tipoOcorrenciaRegional = new TipoOcorrenciaRegional(cep, tagsRegional);
 		tipoOcorrenciaRepository.save(tipoOcorrenciaRegional);
 		return new Ocorrencia(usuario, titulo, descricao, (TipoOcorrenciaRegional) tipoOcorrenciaRegional);
 	}

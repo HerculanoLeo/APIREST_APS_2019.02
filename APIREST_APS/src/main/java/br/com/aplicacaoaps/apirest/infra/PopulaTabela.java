@@ -56,8 +56,8 @@ public class PopulaTabela {
 		tecnicos1.add(usuarioTecnico1);
 		tecnicos1.add(usuarioTecnico2);
 		ocorrencia1.setTecnicos(tecnicos1);
-		ocorrencia1.setTitulo_Ocorrencia("Carro em situação precaria");
-		ocorrencia1.setDescricao_Ocorrencia("Carro emitindo fumaça preta e muito brulho do escapamento");
+		ocorrencia1.setTitulo_Ocorrencia("Carro em situação precária");
+		ocorrencia1.setDescricao_Ocorrencia("Carro emitindo fumaça preta e muito barulho do escapamento");
 		
 		TipoOcorrenciaVeiculo tipoOcorrencia1 = new TipoOcorrenciaVeiculo();
 		tipoOcorrencia1.setPlaca("XXX7777");
@@ -109,11 +109,10 @@ public class PopulaTabela {
 		tecnicos2.add(usuarioGerente);
 		ocorrencia2.setTecnicos(tecnicos2);
 		ocorrencia2.setTitulo_Ocorrencia("Região com Alagamento");
-		ocorrencia2.setDescricao_Ocorrencia("Bueriros vivem entupidos, causando alagamentos em nosso bairro");
+		ocorrencia2.setDescricao_Ocorrencia("Bueiros vivem entupidos, causando alagamentos em nosso bairro");
 
 		TipoOcorrenciaRegional tipoOcorrencia2 = new TipoOcorrenciaRegional();
-		tipoOcorrencia2.setLatitude(-23.166634);
-		tipoOcorrencia2.setLongitude(-46.920427);
+		tipoOcorrencia2.setCEP(13201000);
 		
 		TagsRegional tagsRegional1 = new TagsRegional();
 		TagsRegional tagsRegional2 = new TagsRegional();

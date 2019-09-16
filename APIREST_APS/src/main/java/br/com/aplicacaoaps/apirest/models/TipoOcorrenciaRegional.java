@@ -6,14 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class TipoOcorrenciaRegional extends TipoOcorrencia {
 
 	private String tipo = "REGIONAL";
-	private Double longitude;
-	private Double latitude;
+	private int cep;
 	@ManyToMany
 	private List<TagsRegional> tags;
 
@@ -21,9 +21,8 @@ public class TipoOcorrenciaRegional extends TipoOcorrencia {
 		
 	}
 	
-	public TipoOcorrenciaRegional(@NotNull Double latitude,@NotNull Double longitude,@NotNull List<TagsRegional> TagsRegional) {
-		this.latitude = latitude;
-		this.longitude = longitude;
+	public TipoOcorrenciaRegional(@Size(min = 8, max = 8) int cep,@NotNull List<TagsRegional> TagsRegional) {
+		this.cep = cep;
 		this.tags = TagsRegional;
 	}
 
@@ -31,20 +30,12 @@ public class TipoOcorrenciaRegional extends TipoOcorrencia {
 		return this.id;
 	}
 
-	public double getLongitude() {
-		return longitude;
+	public double getCep() {
+		return cep;
 	}
 
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
+	public void setCEP(int cep) {
+		this.cep = cep;
 	}
 
 	public List<TagsRegional> getTags() {
@@ -58,5 +49,6 @@ public class TipoOcorrenciaRegional extends TipoOcorrencia {
 	public String getTipo() {
 		return this.tipo;
 	}
+
 	
 }
