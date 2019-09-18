@@ -19,11 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.aplicacaoaps.apirest.controller.dto.OcorrenciaDTO;
+import br.com.aplicacaoaps.apirest.controller.dto.OcorrenciaListaDTO;
 import br.com.aplicacaoaps.apirest.controller.dto.UsuarioDTO;
 import br.com.aplicacaoaps.apirest.controller.form.AtualizaUsuarioForm;
 import br.com.aplicacaoaps.apirest.controller.form.UsuarioForm;
+import br.com.aplicacaoaps.apirest.models.Ocorrencia;
 import br.com.aplicacaoaps.apirest.models.TipoUsuario;
 import br.com.aplicacaoaps.apirest.models.Usuario;
+import br.com.aplicacaoaps.apirest.repository.OcorrenciaRepository;
 import br.com.aplicacaoaps.apirest.repository.UsuarioRepository;
 
 @RestController
@@ -32,6 +36,8 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	@Autowired
+	private OcorrenciaRepository ocorrenciaRepository;
 	
 	@GetMapping
 	public List<UsuarioDTO> listarUsuarios(){
@@ -51,6 +57,21 @@ public class UsuarioController {
 		}
 		return ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/{id}/ocorrencia")
+	public ResponseEntity<List<OcorrenciaListaDTO>> buscaOcorrenciaPoriDAutor(@PathVariable Long id){
+		Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+		if(usuarioOptional.isPresent()) {
+			Usuario usuario = usuarioOptional.get();
+			List<Ocorrencia> listaOcorrencia = ocorrenciaRepository.findByAutor(usuario);
+			List<OcorrenciaListaDTO> ocorrenciasListaDTO = new ArrayList<OcorrenciaListaDTO>();
+			listaOcorrencia.forEach(ocorrencia -> {	ocorrenciasListaDTO.add(new OcorrenciaListaDTO(ocorrencia));});
+			return ResponseEntity.ok(ocorrenciasListaDTO);
+		}
+		return ResponseEntity.notFound().build();
+		
+	}
+	
 	
 	@GetMapping("/tipo/{tipo}")
 	public List<UsuarioDTO> buscarUsuarioPorTipo(@PathVariable String tipo){

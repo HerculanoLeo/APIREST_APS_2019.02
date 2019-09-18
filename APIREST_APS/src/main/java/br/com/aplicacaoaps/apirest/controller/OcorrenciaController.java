@@ -103,8 +103,8 @@ public class OcorrenciaController {
 		}
 	}
 	
-	@PutMapping("/{id}/adcionaTecnico")
-	public ResponseEntity<?> adcionarTecnicoOcorrencia(@RequestBody @Valid List<AdicionaTecnicoForm> listaTecnico, @PathVariable Long id, UriComponentsBuilder uriBuilder) {
+	@PutMapping("/{id}/adicionarTecnico")
+	public ResponseEntity<?> adicionarTecnicosOcorrencia(@RequestBody @Valid List<AdicionaTecnicoForm> listaTecnico, @PathVariable Long id, UriComponentsBuilder uriBuilder) {
 		if(AdicionaTecnicoForm.adcionarNaOcorrencia(id, listaTecnico, ocorrenciaRepository)) {
 			URI uri = uriBuilder.path("/{id}").buildAndExpand(id).toUri();
 			return ResponseEntity.created(uri).build();
