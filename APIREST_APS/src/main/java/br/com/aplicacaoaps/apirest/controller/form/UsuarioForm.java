@@ -1,12 +1,9 @@
 package br.com.aplicacaoaps.apirest.controller.form;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import br.com.aplicacaoaps.apirest.models.Perfil;
+import br.com.aplicacaoaps.apirest.models.TipoUsuario;
 import br.com.aplicacaoaps.apirest.models.Usuario;
 
 public class UsuarioForm {
@@ -17,7 +14,7 @@ public class UsuarioForm {
 	private String email;
 	@Size(min = 6, max = 32)
 	private String senha;
-	private List<Perfil> perfil = Arrays.asList(new Perfil("ROLE_COMUM"));
+	private TipoUsuario tipo = TipoUsuario.ROLE_COMUM;
 	
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -29,8 +26,12 @@ public class UsuarioForm {
 		this.senha = senha;
 	}
 
+	public void setTipo(String tipo) {
+		this.tipo = TipoUsuario.valueOf("ROLE_"+tipo);
+	}
+	
 	public Usuario converter() {
-		return new Usuario(nome, email, senha, perfil);
+		return new Usuario(nome, email, senha, tipo);
 	}
 
 

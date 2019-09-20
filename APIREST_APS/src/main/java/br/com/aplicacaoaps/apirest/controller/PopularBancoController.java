@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import br.com.aplicacaoaps.apirest.infra.PopulaTabela;
 import br.com.aplicacaoaps.apirest.repository.ComentarioRepository;
 import br.com.aplicacaoaps.apirest.repository.OcorrenciaRepository;
-import br.com.aplicacaoaps.apirest.repository.PerfilRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsRegionalRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsVeiculoRepository;
 import br.com.aplicacaoaps.apirest.repository.TipoOcorrenciaRepository;
@@ -22,8 +21,6 @@ import br.com.aplicacaoaps.apirest.repository.UsuarioRepository;
 public class PopularBancoController {
 	@Autowired
 	private UsuarioRepository usuaarioRepository;
-	@Autowired
-	private PerfilRepository perfilRepository;
 	@Autowired
 	private OcorrenciaRepository ocorrenciaRepository;
 	@Autowired
@@ -37,7 +34,7 @@ public class PopularBancoController {
 
 	@GetMapping @Transactional @ResponseBody
 	public String popular() {
-		PopulaTabela.populaUsuario(usuaarioRepository, ocorrenciaRepository, comentarioRepository, tagsVeiculoRepository, tagsRegionalRepository, tipoOcorrenciaRepository, perfilRepository);
+		PopulaTabela.populaUsuario(usuaarioRepository, ocorrenciaRepository, comentarioRepository, tagsVeiculoRepository, tagsRegionalRepository, tipoOcorrenciaRepository);
 		return "Foi";
 	}
 	

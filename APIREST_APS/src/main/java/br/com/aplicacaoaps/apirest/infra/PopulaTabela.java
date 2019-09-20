@@ -1,20 +1,18 @@
 package br.com.aplicacaoaps.apirest.infra;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import br.com.aplicacaoaps.apirest.models.Comentarios;
 import br.com.aplicacaoaps.apirest.models.Ocorrencia;
-import br.com.aplicacaoaps.apirest.models.Perfil;
 import br.com.aplicacaoaps.apirest.models.TagsRegional;
 import br.com.aplicacaoaps.apirest.models.TagsVeiculo;
 import br.com.aplicacaoaps.apirest.models.TipoOcorrenciaRegional;
 import br.com.aplicacaoaps.apirest.models.TipoOcorrenciaVeiculo;
+import br.com.aplicacaoaps.apirest.models.TipoUsuario;
 import br.com.aplicacaoaps.apirest.models.Usuario;
 import br.com.aplicacaoaps.apirest.repository.ComentarioRepository;
 import br.com.aplicacaoaps.apirest.repository.OcorrenciaRepository;
-import br.com.aplicacaoaps.apirest.repository.PerfilRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsRegionalRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsVeiculoRepository;
 import br.com.aplicacaoaps.apirest.repository.TipoOcorrenciaRepository;
@@ -24,43 +22,32 @@ public class PopulaTabela {
 
 	public static void populaUsuario(UsuarioRepository usuarioRepository, OcorrenciaRepository ocorrenciaRepository,
 										ComentarioRepository comentarioRepository, TagsVeiculoRepository tagsVeiculoRepository, TagsRegionalRepository tagsRegionalRepository, 
-										TipoOcorrenciaRepository tipoOcorrenciaRepository, PerfilRepository perfilRepository) {
+										TipoOcorrenciaRepository tipoOcorrenciaRepository) {
 		
 		Usuario usuarioComum = new Usuario();
 		Usuario usuarioTecnico1 = new Usuario();
 		Usuario usuarioTecnico2 = new Usuario();
 		Usuario usuarioGerente = new Usuario();
 		
-		Perfil perfilComum = new Perfil();
-		Perfil perfilTecnico = new Perfil();
-		Perfil perfilGerente = new Perfil();
-		
-		perfilComum.setNome("ROLE_COMUM");
-		perfilRepository.save(perfilComum);
-		perfilTecnico.setNome("ROLE_TECNICO");
-		perfilRepository.save(perfilTecnico);
-		perfilGerente.setNome("ROLE_GERENTE");
-		perfilRepository.save(perfilGerente);
-		
 		usuarioComum.setNome("UserComum");
 		usuarioComum.setEmail("comum@email.com");
 		usuarioComum.setSenha("123456");
-		usuarioComum.setPerfil(Arrays.asList(perfilComum));
+		usuarioComum.setTipoUsuario(TipoUsuario.ROLE_COMUM);
 		
 		usuarioTecnico1.setNome("UserTecnico1");
 		usuarioTecnico1.setEmail("tecnico1@email.com");
 		usuarioTecnico1.setSenha("123456");
-		usuarioTecnico1.setPerfil(Arrays.asList(perfilTecnico));
+		usuarioTecnico1.setTipoUsuario(TipoUsuario.ROLE_TECNICO);
 		
 		usuarioTecnico2.setNome("UserTecnico2");
 		usuarioTecnico2.setEmail("tecnico2@email.com");
 		usuarioTecnico2.setSenha("123456");
-		usuarioTecnico2.setPerfil(Arrays.asList(perfilTecnico));
+		usuarioTecnico2.setTipoUsuario(TipoUsuario.ROLE_TECNICO);
 		
 		usuarioGerente.setNome("UserGerente");
 		usuarioGerente.setEmail("gerente@email.com");
 		usuarioGerente.setSenha("123456");
-		usuarioGerente.setPerfil(Arrays.asList(perfilGerente));
+		usuarioGerente.setTipoUsuario(TipoUsuario.ROLE_GERENTE);
 	
 		Ocorrencia ocorrencia1 = new Ocorrencia();
 		
