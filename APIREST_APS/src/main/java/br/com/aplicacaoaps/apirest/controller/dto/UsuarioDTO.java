@@ -1,19 +1,22 @@
 package br.com.aplicacaoaps.apirest.controller.dto;
 
-import br.com.aplicacaoaps.apirest.models.TipoUsuario;
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+
 import br.com.aplicacaoaps.apirest.models.Usuario;
 
 public class UsuarioDTO {
 	private Long id;
 	private String nome;
 	private String email;
-	private TipoUsuario tipo;
+	private Collection<? extends GrantedAuthority> perfil;
 
 	public UsuarioDTO(Usuario usuario) {
 		this.id = usuario.getId();
 		this.nome = usuario.getNome();
 		this.email = usuario.getEmail();
-		this.tipo = usuario.getTipoUsuario();
+		this.perfil = usuario.getAuthorities();
 	}
 
 	public Long getId() {
@@ -28,8 +31,8 @@ public class UsuarioDTO {
 		return email;
 	}
 
-	public TipoUsuario getTipo() {
-		return tipo;
+	public Collection<? extends GrantedAuthority> getPerfil() {
+		return perfil;
 	}
 
 }
