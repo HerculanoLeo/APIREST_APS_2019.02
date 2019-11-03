@@ -8,7 +8,7 @@ import br.com.aplicacaoaps.apirest.models.Status;
 import br.com.aplicacaoaps.apirest.models.TipoOcorrencia;
 
 public class OcorrenciaDTO {
-	private Long idOcorrencia;
+	private Long id;
 	private UsuarioDTO autor;
 	private String titulo_Ocorrencia;
 	private String descricao_Ocorrencia;
@@ -16,25 +16,25 @@ public class OcorrenciaDTO {
 	private TipoOcorrencia tipoOcorrencia;
 	private Status status;
 	private List<ComentarioDTO> comentarios;
-	private LocalDateTime dataAberturra;
+	private LocalDateTime dataAbertura;
 	private LocalDateTime dataFechamento;
 
 	public OcorrenciaDTO(Ocorrencia ocorrencia, UsuarioDTO autor, List<UsuarioDTO> tecnicos,
-			List<ComentarioDTO> comentarios) {
-		this.idOcorrencia = ocorrencia.getId();
+			List<ComentarioDTO> comentarios, TipoOcorrencia tipoOcorrencia) {
+		this.id = ocorrencia.getId();
 		this.titulo_Ocorrencia = ocorrencia.getTitulo_Ocorrencia();
 		this.descricao_Ocorrencia = ocorrencia.getDescricao_Ocorrencia();
 		this.autor = autor;
 		this.tecnicos = tecnicos;
-		this.tipoOcorrencia = ocorrencia.getTipoOcorrencia();
+		this.tipoOcorrencia = tipoOcorrencia;
 		this.status = ocorrencia.getStatus();
 		this.comentarios = comentarios;
-		this.dataAberturra = ocorrencia.getDataCriacao();
+		this.dataAbertura = ocorrencia.getDataAbertura();
 		this.dataFechamento = ocorrencia.getDataFechamento();
 	}
 
-	public Long getIdOcorrencia() {
-		return idOcorrencia;
+	public Long getId() {
+		return id;
 	}
 
 	public String getTitulo_Ocorrencia() {
@@ -53,8 +53,8 @@ public class OcorrenciaDTO {
 		return tecnicos;
 	}
 
-	public LocalDateTime getDataAberturra() {
-		return dataAberturra;
+	public LocalDateTime getDataAbertura() {
+		return dataAbertura;
 	}
 
 	public LocalDateTime getDataFechamento() {

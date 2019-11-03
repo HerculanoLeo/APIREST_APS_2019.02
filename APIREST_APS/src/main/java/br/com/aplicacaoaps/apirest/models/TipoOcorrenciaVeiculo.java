@@ -29,7 +29,8 @@ public class TipoOcorrenciaVeiculo extends TipoOcorrencia {
 		this.tags = tagsVeiculo;
 	}
 
-	public int getId() {
+
+	public Long getId() {
 		return this.id;
 	}
 	

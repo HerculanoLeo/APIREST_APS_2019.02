@@ -6,9 +6,9 @@ import br.com.aplicacaoaps.apirest.models.Comentarios;
 
 public class ComentarioDTO {
 
-	private Long idComentario;
-	private Long idAutor;
-	private Long idOcorrencia;
+	private Long id_Comentario;
+	private Long id_Autor;
+	private Long id_Ocorrencia;
 
 	private String nomeAutor;
 	private String emailAutor;
@@ -17,11 +17,11 @@ public class ComentarioDTO {
 	private String resposta;
 
 	public ComentarioDTO(Comentarios comentarios) {
-		this.idComentario = comentarios.getId();
-		this.idAutor = comentarios.getAutor().getId();
+		this.id_Comentario = comentarios.getId();
+		this.id_Autor = comentarios.getAutor().getId();
 		this.nomeAutor = comentarios.getAutor().getNome();
 		this.emailAutor = comentarios.getAutor().getEmail();
-		this.idOcorrencia = comentarios.getOcorrencia().getId();
+		this.id_Ocorrencia = comentarios.getOcorrencia().getId();
 		this.dataCriacao = comentarios.getDataCriacao();
 		this.resposta = comentarios.getResposta();
 	}
@@ -34,16 +34,16 @@ public class ComentarioDTO {
 		return emailAutor;
 	}
 
-	public Long getIdComentario() {
-		return idComentario;
+	public Long getId_Comentario() {
+		return id_Comentario;
 	}
 
-	public Long getIdAutor() {
-		return idAutor;
+	public Long getId_Autor() {
+		return id_Autor;
 	}
 
-	public Long getIdOcorrencia() {
-		return idOcorrencia;
+	public Long getId_Ocorrencia() {
+		return id_Ocorrencia;
 	}
 
 	public LocalDateTime getDataCriacao() {

@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +31,8 @@ import br.com.aplicacaoaps.apirest.controller.form.ComentarioForm;
 import br.com.aplicacaoaps.apirest.controller.form.OcorrenciaForm;
 import br.com.aplicacaoaps.apirest.models.Comentarios;
 import br.com.aplicacaoaps.apirest.models.Ocorrencia;
+import br.com.aplicacaoaps.apirest.models.Status;
+import br.com.aplicacaoaps.apirest.models.TipoOcorrencia;
 import br.com.aplicacaoaps.apirest.repository.ComentarioRepository;
 import br.com.aplicacaoaps.apirest.repository.OcorrenciaRepository;
 import br.com.aplicacaoaps.apirest.repository.TipoOcorrenciaRepository;
@@ -45,26 +49,36 @@ public class OcorrenciaController {
 	private TipoOcorrenciaRepository tipoOcorrenciaRepository;
 
 	@GetMapping
-	public ResponseEntity<List<OcorrenciaListaDTO>> buscaTodasOcorencia() {
-		List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAll();
+	public ResponseEntity<Page<OcorrenciaListaDTO>> buscarTodasOcorencia(Pageable pageable) {
+		Page<Ocorrencia> ocorrencias = ocorrenciaRepository.findAll(pageable);
 		if (ocorrencias.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
-			List<OcorrenciaListaDTO> ocorrenciasListaDTO = new ArrayList<OcorrenciaListaDTO>();
-			ocorrencias.forEach(ocorrencia -> {	ocorrenciasListaDTO.add(new OcorrenciaListaDTO(ocorrencia));});
-			return ResponseEntity.ok(ocorrenciasListaDTO);
+			return ResponseEntity.ok(OcorrenciaListaDTO.converter(ocorrencias));	
+		}
+	}
+	@GetMapping("/status/{status}")
+	public ResponseEntity<Page<OcorrenciaListaDTO>> buscarOcorenciaAbertas(@PathVariable String status, Pageable pageable) {
+		String statusUPPER = status.toUpperCase();		
+		Page<Ocorrencia> ocorrencias = ocorrenciaRepository.findByStatus(Status.valueOf(statusUPPER), pageable);
+		if (ocorrencias.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok(OcorrenciaListaDTO.converter(ocorrencias));
 		}
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<OcorrenciaDTO> buscaOcorenciaPorId(@PathVariable Long id) {
+		Optional<TipoOcorrencia> tipoOcorrenciaOptional = tipoOcorrenciaRepository.findById(id);
 		Optional<Ocorrencia> ocorrenciaOptional = ocorrenciaRepository.findById(id);
-		if (ocorrenciaOptional.isPresent()) {
+		if (ocorrenciaOptional.isPresent()&&tipoOcorrenciaOptional.isPresent()) {
 			Ocorrencia ocorrencia = ocorrenciaOptional.get();
 			UsuarioDTO autor = new UsuarioDTO(ocorrencia.getAutor());
 			List<UsuarioDTO> tecnicos = ocorrencia.getTecnicos().stream().map(t -> new UsuarioDTO(t)).collect(Collectors.toList());
 			List<ComentarioDTO> comentarios = ocorrencia.getComentarios().stream().map(c -> new ComentarioDTO(c)).collect(Collectors.toList());
-			OcorrenciaDTO ocorrenciaDTO = new OcorrenciaDTO(ocorrencia, autor, tecnicos, comentarios);
+			TipoOcorrencia tipoOcorrencia = tipoOcorrenciaOptional.get();
+			OcorrenciaDTO ocorrenciaDTO = new OcorrenciaDTO(ocorrencia, autor, tecnicos, comentarios, tipoOcorrencia);
 			return ResponseEntity.ok(ocorrenciaDTO);
 		}
 		return ResponseEntity.notFound().build();

@@ -34,28 +34,31 @@ public class Ocorrencia {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Usuario> tecnicos;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private TipoOcorrencia tipoOcorrencia;
 
 	@Enumerated(EnumType.STRING)
-	private Status status = Status.NAO_SOLUCIONADO;
+	private Status status = Status.ABERTO;
 
 	@OneToMany(mappedBy = "ocorrencia", fetch = FetchType.LAZY)
 	private List<Comentarios> comentarios = new ArrayList<Comentarios>();
 
-	private LocalDateTime dataCriacao = LocalDateTime.now();
+	private LocalDateTime dataAbertura = LocalDateTime.now();
 	private LocalDateTime dataFechamento;
 
-	public Ocorrencia() {}
-	
-	public Ocorrencia(@NotNull Usuario usuario,@NotBlank String titulo,@NotBlank String descricao,@NotNull TipoOcorrenciaVeiculo tipoOcorrenciaVeiculo) {
+	public Ocorrencia() {
+	}
+
+	public Ocorrencia(@NotNull Usuario usuario, @NotBlank String titulo, @NotBlank String descricao,
+			@NotNull TipoOcorrenciaVeiculo tipoOcorrenciaVeiculo) {
 		this.autor = usuario;
 		this.titulo_Ocorrencia = titulo;
 		this.descricao_Ocorrencia = descricao;
 		this.tipoOcorrencia = tipoOcorrenciaVeiculo;
 	}
 
-	public Ocorrencia(@NotNull Usuario usuario,@NotBlank String titulo,@NotBlank String descricao, TipoOcorrenciaRegional tipoOcorrenciaRegional ) {
+	public Ocorrencia(@NotNull Usuario usuario, @NotBlank String titulo, @NotBlank String descricao,
+			TipoOcorrenciaRegional tipoOcorrenciaRegional) {
 		this.autor = usuario;
 		this.titulo_Ocorrencia = titulo;
 		this.descricao_Ocorrencia = descricao;
@@ -126,12 +129,12 @@ public class Ocorrencia {
 		this.comentarios = comentarios;
 	}
 
-	public LocalDateTime getDataCriacao() {
-		return dataCriacao;
+	public LocalDateTime getDataAbertura() {
+		return dataAbertura;
 	}
 
-	public void setDataCriacao(LocalDateTime dataCriacao) {
-		this.dataCriacao = dataCriacao;
+	public void setDataAbertura(LocalDateTime dataAbertura) {
+		this.dataAbertura = dataAbertura;
 	}
 
 	public LocalDateTime getDataFechamento() {

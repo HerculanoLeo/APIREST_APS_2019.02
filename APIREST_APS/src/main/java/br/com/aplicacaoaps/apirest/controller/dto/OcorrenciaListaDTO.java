@@ -2,30 +2,29 @@ package br.com.aplicacaoaps.apirest.controller.dto;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.domain.Page;
+
 import br.com.aplicacaoaps.apirest.models.Ocorrencia;
 import br.com.aplicacaoaps.apirest.models.Status;
-import br.com.aplicacaoaps.apirest.models.TipoOcorrencia;
 
 public class OcorrenciaListaDTO {
-	private Long idOcorrencia;
-	private TipoOcorrencia tipoOcorrencia;
+	private Long id;
 	private Status status;
 	private String titulo_Ocorrencia;
 	private String descricao_Ocorrencia;
-	private LocalDateTime dataAberturra, dataFechamento;
+	private LocalDateTime dataAbertura, dataFechamento;
 
 	public OcorrenciaListaDTO(Ocorrencia ocorrencia) {
-		this.idOcorrencia = ocorrencia.getId();
+		this.id = ocorrencia.getId();
 		this.titulo_Ocorrencia = ocorrencia.getTitulo_Ocorrencia();
 		this.descricao_Ocorrencia = ocorrencia.getDescricao_Ocorrencia();
-		this.tipoOcorrencia = ocorrencia.getTipoOcorrencia();
 		this.status = ocorrencia.getStatus();
-		this.dataAberturra = ocorrencia.getDataCriacao();
+		this.dataAbertura = ocorrencia.getDataAbertura();
 		this.dataFechamento = ocorrencia.getDataFechamento();
 	}
 
-	public Long getIdOcorrencia() {
-		return idOcorrencia;
+	public Long getId() {
+		return id;
 	}
 
 	public String getTitulo_Ocorrencia() {
@@ -36,20 +35,20 @@ public class OcorrenciaListaDTO {
 		return descricao_Ocorrencia;
 	}
 
-	public LocalDateTime getDataAberturra() {
-		return dataAberturra;
+	public LocalDateTime getDataAbertura() {
+		return dataAbertura;
 	}
 
 	public LocalDateTime getDataFechamento() {
 		return dataFechamento;
 	}
 
-	public TipoOcorrencia getTipoOcorrencia() {
-		return tipoOcorrencia;
-	}
-
 	public Status getStatus() {
 		return status;
+	}
+	
+	public static Page<OcorrenciaListaDTO> converter(Page<Ocorrencia> ocorrecias){
+		return ocorrecias.map(OcorrenciaListaDTO::new);
 	}
 
 }

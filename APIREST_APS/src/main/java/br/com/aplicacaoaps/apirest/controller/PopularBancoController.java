@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.aplicacaoaps.apirest.infra.PopulaTabela;
+import br.com.aplicacaoaps.apirest.infra.PopulaBanco;
 import br.com.aplicacaoaps.apirest.repository.ComentarioRepository;
 import br.com.aplicacaoaps.apirest.repository.OcorrenciaRepository;
 import br.com.aplicacaoaps.apirest.repository.PerfilRepository;
@@ -21,7 +21,7 @@ import br.com.aplicacaoaps.apirest.repository.UsuarioRepository;
 @RequestMapping("/popularBanco")
 public class PopularBancoController {
 	@Autowired
-	private UsuarioRepository usuaarioRepository;
+	private UsuarioRepository usuarioRepository;
 	@Autowired
 	private PerfilRepository perfilRepository;
 	@Autowired
@@ -37,7 +37,7 @@ public class PopularBancoController {
 
 	@GetMapping @Transactional @ResponseBody
 	public String popular() {
-		PopulaTabela.populaUsuario(usuaarioRepository, ocorrenciaRepository, comentarioRepository, tagsVeiculoRepository, tagsRegionalRepository, tipoOcorrenciaRepository, perfilRepository);
+		PopulaBanco.populaUsuario(usuarioRepository, ocorrenciaRepository, comentarioRepository, tagsVeiculoRepository, tagsRegionalRepository, tipoOcorrenciaRepository, perfilRepository);
 		return "Foi";
 	}
 	

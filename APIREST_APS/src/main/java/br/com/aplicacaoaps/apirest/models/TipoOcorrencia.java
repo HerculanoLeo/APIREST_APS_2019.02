@@ -12,7 +12,6 @@ import javax.persistence.InheritanceType;
 public abstract class TipoOcorrencia {
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	protected int id;
+	protected Long id;
 
-	
 }

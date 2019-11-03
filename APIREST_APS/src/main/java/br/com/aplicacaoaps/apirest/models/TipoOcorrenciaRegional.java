@@ -26,7 +26,8 @@ public class TipoOcorrenciaRegional extends TipoOcorrencia {
 		this.tags = TagsRegional;
 	}
 
-	public int getId() {
+
+	public Long getId() {
 		return this.id;
 	}
 
