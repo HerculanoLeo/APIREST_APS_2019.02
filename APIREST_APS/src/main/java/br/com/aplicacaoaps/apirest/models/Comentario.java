@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Comentarios {
+public class Comentario {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -21,18 +21,18 @@ public class Comentarios {
 	private Usuario autor;
 	
 	@ManyToOne @JsonIgnore
-	private Ocorrencia ocorrencia;
+	private Chamado chamado;
 	private LocalDateTime dataCriacao = LocalDateTime.now();
 
 	private String resposta;
 
-	public Comentarios() {}
+	public Comentario() {}
 	
 	
 	
-	public Comentarios(Usuario usuario, Ocorrencia ocorrencia, @NotBlank String comentario) {
+	public Comentario(Usuario usuario, Chamado chamado, @NotBlank String comentario) {
 		this.autor = usuario;
-		this.ocorrencia = ocorrencia;
+		this.chamado = chamado;
 		this.resposta = comentario;
 	}
 
@@ -54,12 +54,12 @@ public class Comentarios {
 		this.autor = autor;
 	}
 
-	public Ocorrencia getOcorrencia() {
-		return ocorrencia;
+	public Chamado getChamado() {
+		return chamado;
 	}
 
-	public void setOcorrencia(Ocorrencia ocorrencia) {
-		this.ocorrencia = ocorrencia;
+	public void setChamado(Chamado chamado) {
+		this.chamado = chamado;
 	}
 
 	public LocalDateTime getDataCriacao() {

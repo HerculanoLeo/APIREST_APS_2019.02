@@ -3,8 +3,8 @@ package br.com.aplicacaoaps.apirest.controller.form;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import br.com.aplicacaoaps.apirest.models.Comentarios;
-import br.com.aplicacaoaps.apirest.models.Ocorrencia;
+import br.com.aplicacaoaps.apirest.models.Comentario;
+import br.com.aplicacaoaps.apirest.models.Chamado;
 import br.com.aplicacaoaps.apirest.models.Usuario;
 import br.com.aplicacaoaps.apirest.repository.ComentarioRepository;
 
@@ -23,13 +23,13 @@ public class ComentarioForm {
 		this.comentario = comentario;
 	}
 
-	public Boolean adcionaComentario(Long idOcorrencia, ComentarioRepository comentarioRepository) {
+	public Boolean adcionaComentario(Long idChamado, ComentarioRepository comentarioRepository) {
 		try {
-			Ocorrencia ocorrencia = new Ocorrencia();
-			ocorrencia.setId(idOcorrencia);
+			Chamado chamado = new Chamado();
+			chamado.setId(idChamado);
 			Usuario usuario = new Usuario();
 			usuario.setId(idAutor);
-			Comentarios comentario = new Comentarios(usuario, ocorrencia, this.comentario);
+			Comentario comentario = new Comentario(usuario, chamado, this.comentario);
 			comentarioRepository.save(comentario);
 			return true;
 		} catch (Exception e) {

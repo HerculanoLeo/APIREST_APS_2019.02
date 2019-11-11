@@ -19,14 +19,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Ocorrencia {
+public class Chamado {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String titulo_Ocorrencia;
-	private String descricao_Ocorrencia;
+	private String titulo_Chamado;
+	private String descricao_Chamado;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario autor;
@@ -35,54 +35,54 @@ public class Ocorrencia {
 	private List<Usuario> tecnicos;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	private TipoOcorrencia tipoOcorrencia;
+	private TipoChamado tipoChamado;
 
 	@Enumerated(EnumType.STRING)
 	private Status status = Status.ABERTO;
 
-	@OneToMany(mappedBy = "ocorrencia", fetch = FetchType.LAZY)
-	private List<Comentarios> comentarios = new ArrayList<Comentarios>();
+	@OneToMany(mappedBy = "chamado", fetch = FetchType.LAZY)
+	private List<Comentario> comentarios = new ArrayList<Comentario>();
 
 	private LocalDateTime dataAbertura = LocalDateTime.now();
 	private LocalDateTime dataFechamento;
 
-	public Ocorrencia() {
+	public Chamado() {
 	}
 
-	public Ocorrencia(@NotNull Usuario usuario, @NotBlank String titulo, @NotBlank String descricao,
-			@NotNull TipoOcorrenciaVeiculo tipoOcorrenciaVeiculo) {
+	public Chamado(@NotNull Usuario usuario, @NotBlank String titulo, @NotBlank String descricao,
+			@NotNull TipoChamadoVeiculo tipoOcorrenciaVeiculo) {
 		this.autor = usuario;
-		this.titulo_Ocorrencia = titulo;
-		this.descricao_Ocorrencia = descricao;
-		this.tipoOcorrencia = tipoOcorrenciaVeiculo;
+		this.titulo_Chamado = titulo;
+		this.descricao_Chamado = descricao;
+		this.tipoChamado = tipoOcorrenciaVeiculo;
 	}
 
-	public Ocorrencia(@NotNull Usuario usuario, @NotBlank String titulo, @NotBlank String descricao,
-			TipoOcorrenciaRegional tipoOcorrenciaRegional) {
+	public Chamado(@NotNull Usuario usuario, @NotBlank String titulo, @NotBlank String descricao,
+			TipoChamadoRegional tipoChamadoRegional) {
 		this.autor = usuario;
-		this.titulo_Ocorrencia = titulo;
-		this.descricao_Ocorrencia = descricao;
-		this.tipoOcorrencia = tipoOcorrenciaRegional;
+		this.titulo_Chamado = titulo;
+		this.descricao_Chamado = descricao;
+		this.tipoChamado = tipoChamadoRegional;
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public String getTitulo_Ocorrencia() {
-		return titulo_Ocorrencia;
+	public String getTitulo_Chamado() {
+		return titulo_Chamado;
 	}
 
-	public void setTitulo_Ocorrencia(String titulo_Ocorrencia) {
-		this.titulo_Ocorrencia = titulo_Ocorrencia;
+	public void setTitulo_Chamado(String titulo_Chamado) {
+		this.titulo_Chamado = titulo_Chamado;
 	}
 
-	public String getDescricao_Ocorrencia() {
-		return descricao_Ocorrencia;
+	public String getDescricao_Chamado() {
+		return descricao_Chamado;
 	}
 
-	public void setDescricao_Ocorrencia(String descricao_Ocorrencia) {
-		this.descricao_Ocorrencia = descricao_Ocorrencia;
+	public void setDescricao_Chamado(String descricao_Chamado) {
+		this.descricao_Chamado = descricao_Chamado;
 	}
 
 	public void setId(Long id) {
@@ -105,12 +105,12 @@ public class Ocorrencia {
 		this.tecnicos = tecnicos;
 	}
 
-	public TipoOcorrencia getTipoOcorrencia() {
-		return tipoOcorrencia;
+	public TipoChamado getTipoChamado() {
+		return tipoChamado;
 	}
 
-	public void setTipoOcorrencia(TipoOcorrencia tipoOcorrencia) {
-		this.tipoOcorrencia = tipoOcorrencia;
+	public void setTipoChamado(TipoChamado tipoChamado) {
+		this.tipoChamado = tipoChamado;
 	}
 
 	public Status getStatus() {
@@ -121,11 +121,11 @@ public class Ocorrencia {
 		this.status = status;
 	}
 
-	public List<Comentarios> getComentarios() {
+	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
 
-	public void setComentarios(List<Comentarios> comentarios) {
+	public void setComentarios(List<Comentario> comentarios) {
 		this.comentarios = comentarios;
 	}
 

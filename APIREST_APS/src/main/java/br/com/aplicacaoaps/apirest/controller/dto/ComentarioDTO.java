@@ -2,28 +2,28 @@ package br.com.aplicacaoaps.apirest.controller.dto;
 
 import java.time.LocalDateTime;
 
-import br.com.aplicacaoaps.apirest.models.Comentarios;
+import br.com.aplicacaoaps.apirest.models.Comentario;
 
 public class ComentarioDTO {
 
 	private Long id_Comentario;
 	private Long id_Autor;
-	private Long id_Ocorrencia;
+	private Long id_Chamado;
 
 	private String nomeAutor;
 	private String emailAutor;
 
 	private LocalDateTime dataCriacao;
-	private String resposta;
+	private String comentario;
 
-	public ComentarioDTO(Comentarios comentarios) {
-		this.id_Comentario = comentarios.getId();
-		this.id_Autor = comentarios.getAutor().getId();
-		this.nomeAutor = comentarios.getAutor().getNome();
-		this.emailAutor = comentarios.getAutor().getEmail();
-		this.id_Ocorrencia = comentarios.getOcorrencia().getId();
-		this.dataCriacao = comentarios.getDataCriacao();
-		this.resposta = comentarios.getResposta();
+	public ComentarioDTO(Comentario comentario) {
+		this.id_Comentario = comentario.getId();
+		this.id_Autor = comentario.getAutor().getId();
+		this.nomeAutor = comentario.getAutor().getNome();
+		this.emailAutor = comentario.getAutor().getEmail();
+		this.id_Chamado = comentario.getChamado().getId();
+		this.dataCriacao = comentario.getDataCriacao();
+		this.comentario = comentario.getResposta();
 	}
 
 	public String getNomeAutor() {
@@ -42,8 +42,8 @@ public class ComentarioDTO {
 		return id_Autor;
 	}
 
-	public Long getId_Ocorrencia() {
-		return id_Ocorrencia;
+	public Long getId_Chamado() {
+		return id_Chamado;
 	}
 
 	public LocalDateTime getDataCriacao() {
@@ -51,7 +51,7 @@ public class ComentarioDTO {
 	}
 
 	public String getResposta() {
-		return resposta;
+		return comentario;
 	}
 
 }

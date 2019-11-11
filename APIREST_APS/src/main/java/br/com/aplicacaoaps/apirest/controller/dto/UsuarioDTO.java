@@ -1,6 +1,8 @@
 package br.com.aplicacaoaps.apirest.controller.dto;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -33,6 +35,10 @@ public class UsuarioDTO {
 
 	public Collection<? extends GrantedAuthority> getPerfil() {
 		return perfil;
+	}
+
+	public static List<UsuarioDTO> converter(List<Usuario> usuarios) {
+		return usuarios.stream().map(usuario -> new UsuarioDTO(usuario)).collect(Collectors.toList());
 	}
 
 }

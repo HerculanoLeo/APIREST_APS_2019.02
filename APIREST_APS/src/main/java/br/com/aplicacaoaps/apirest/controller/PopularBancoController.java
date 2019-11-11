@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.aplicacaoaps.apirest.infra.PopulaBanco;
 import br.com.aplicacaoaps.apirest.repository.ComentarioRepository;
-import br.com.aplicacaoaps.apirest.repository.OcorrenciaRepository;
+import br.com.aplicacaoaps.apirest.repository.ChamadoRepository;
 import br.com.aplicacaoaps.apirest.repository.PerfilRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsRegionalRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsVeiculoRepository;
-import br.com.aplicacaoaps.apirest.repository.TipoOcorrenciaRepository;
+import br.com.aplicacaoaps.apirest.repository.TipoChamadoRepository;
 import br.com.aplicacaoaps.apirest.repository.UsuarioRepository;
 
 @Controller
@@ -25,7 +25,7 @@ public class PopularBancoController {
 	@Autowired
 	private PerfilRepository perfilRepository;
 	@Autowired
-	private OcorrenciaRepository ocorrenciaRepository;
+	private ChamadoRepository chamadoRepository;
 	@Autowired
 	private ComentarioRepository comentarioRepository;
 	@Autowired
@@ -33,11 +33,11 @@ public class PopularBancoController {
 	@Autowired
 	private TagsRegionalRepository tagsRegionalRepository;
 	@Autowired
-	private TipoOcorrenciaRepository tipoOcorrenciaRepository;
+	private TipoChamadoRepository tipoChamadoRepository;
 
 	@GetMapping @Transactional @ResponseBody
 	public String popular() {
-		PopulaBanco.populaUsuario(usuarioRepository, ocorrenciaRepository, comentarioRepository, tagsVeiculoRepository, tagsRegionalRepository, tipoOcorrenciaRepository, perfilRepository);
+		PopulaBanco.popular(usuarioRepository, chamadoRepository, comentarioRepository, tagsVeiculoRepository, tagsRegionalRepository, tipoChamadoRepository, perfilRepository);
 		return "Foi";
 	}
 	

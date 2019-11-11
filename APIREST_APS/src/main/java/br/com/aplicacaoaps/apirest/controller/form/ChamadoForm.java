@@ -5,16 +5,16 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import br.com.aplicacaoaps.apirest.models.Ocorrencia;
+import br.com.aplicacaoaps.apirest.models.Chamado;
 import br.com.aplicacaoaps.apirest.models.TagsRegional;
 import br.com.aplicacaoaps.apirest.models.TagsVeiculo;
-import br.com.aplicacaoaps.apirest.models.TipoOcorrencia;
-import br.com.aplicacaoaps.apirest.models.TipoOcorrenciaRegional;
-import br.com.aplicacaoaps.apirest.models.TipoOcorrenciaVeiculo;
+import br.com.aplicacaoaps.apirest.models.TipoChamado;
+import br.com.aplicacaoaps.apirest.models.TipoChamadoRegional;
+import br.com.aplicacaoaps.apirest.models.TipoChamadoVeiculo;
 import br.com.aplicacaoaps.apirest.models.Usuario;
-import br.com.aplicacaoaps.apirest.repository.TipoOcorrenciaRepository;
+import br.com.aplicacaoaps.apirest.repository.TipoChamadoRepository;
 
-public class OcorrenciaForm {
+public class ChamadoForm {
 
 	@NotNull
 	private Long idAutor;
@@ -93,20 +93,20 @@ public class OcorrenciaForm {
 		this.tagsVeiculo = tagsVeiculo;
 	}
 
-	public Ocorrencia converterTipoVeiculo(TipoOcorrenciaRepository tipoOcorrenciaRepository) {
+	public Chamado converterTipoVeiculo(TipoChamadoRepository tipoChamadoRepository) {
 		Usuario usuario = new Usuario();
 		usuario.setId(idAutor);
-		TipoOcorrencia tipoOcorrenciaVeiculo = new TipoOcorrenciaVeiculo(placa, tagsVeiculo);
-		tipoOcorrenciaRepository.save(tipoOcorrenciaVeiculo);
-		return new Ocorrencia(usuario, titulo, descricao, (TipoOcorrenciaVeiculo) tipoOcorrenciaVeiculo);
+		TipoChamado tipoChamadoVeiculo = new TipoChamadoVeiculo(placa, tagsVeiculo);
+		tipoChamadoRepository.save(tipoChamadoVeiculo);
+		return new Chamado(usuario, titulo, descricao, (TipoChamadoVeiculo) tipoChamadoVeiculo);
 	}
 	
-	public Ocorrencia converterTipoRegional(TipoOcorrenciaRepository tipoOcorrenciaRepository) {
+	public Chamado converterTipoRegional(TipoChamadoRepository tipoChamadoRepository) {
 		Usuario usuario = new Usuario();
 		usuario.setId(idAutor);
-		TipoOcorrencia tipoOcorrenciaRegional = new TipoOcorrenciaRegional(cep, tagsRegional);
-		tipoOcorrenciaRepository.save(tipoOcorrenciaRegional);
-		return new Ocorrencia(usuario, titulo, descricao, (TipoOcorrenciaRegional) tipoOcorrenciaRegional);
+		TipoChamado tipoChamadoRegional = new TipoChamadoRegional(cep, tagsRegional);
+		tipoChamadoRepository.save(tipoChamadoRegional);
+		return new Chamado(usuario, titulo, descricao, (TipoChamadoRegional) tipoChamadoRegional);
 	}
 	
 }

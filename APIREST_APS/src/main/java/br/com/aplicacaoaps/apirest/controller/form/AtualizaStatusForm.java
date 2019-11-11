@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
-import br.com.aplicacaoaps.apirest.models.Ocorrencia;
+import br.com.aplicacaoaps.apirest.models.Chamado;
 import br.com.aplicacaoaps.apirest.models.Status;
-import br.com.aplicacaoaps.apirest.repository.OcorrenciaRepository;
+import br.com.aplicacaoaps.apirest.repository.ChamadoRepository;
 
 public class AtualizaStatusForm {
 
@@ -17,17 +17,17 @@ public class AtualizaStatusForm {
 		this.status = Status.valueOf(tipo);
 	}
 	
-	public Boolean alteraStatus(Long id, OcorrenciaRepository ocorrenciaRepository ) {
+	public Boolean alteraStatus(Long id, ChamadoRepository chamadoRepository ) {
 		try {
-			Ocorrencia ocorrencia = ocorrenciaRepository.getOne(id);
+			Chamado chamado = chamadoRepository.getOne(id);
 			if(status==Status.FECHADO) {
 				LocalDateTime dataFechamento = LocalDateTime.now();
-				ocorrencia.setDataFechamento(dataFechamento);
-				ocorrencia.setStatus(status);
+				chamado.setDataFechamento(dataFechamento);
+				chamado.setStatus(status);
 			}else {
-				ocorrencia.setStatus(status);
+				chamado.setStatus(status);
 			}
-			ocorrenciaRepository.save(ocorrencia);
+			chamadoRepository.save(chamado);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -3,27 +3,27 @@ package br.com.aplicacaoaps.apirest.controller.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import br.com.aplicacaoaps.apirest.models.Ocorrencia;
+import br.com.aplicacaoaps.apirest.models.Chamado;
 import br.com.aplicacaoaps.apirest.models.Status;
-import br.com.aplicacaoaps.apirest.models.TipoOcorrencia;
+import br.com.aplicacaoaps.apirest.models.TipoChamado;
 
-public class OcorrenciaDTO {
+public class ChamadoDTO {
 	private Long id;
 	private UsuarioDTO autor;
 	private String titulo_Ocorrencia;
 	private String descricao_Ocorrencia;
 	private List<UsuarioDTO> tecnicos;
-	private TipoOcorrencia tipoOcorrencia;
+	private TipoChamado tipoOcorrencia;
 	private Status status;
 	private List<ComentarioDTO> comentarios;
 	private LocalDateTime dataAbertura;
 	private LocalDateTime dataFechamento;
 
-	public OcorrenciaDTO(Ocorrencia ocorrencia, UsuarioDTO autor, List<UsuarioDTO> tecnicos,
-			List<ComentarioDTO> comentarios, TipoOcorrencia tipoOcorrencia) {
+	public ChamadoDTO(Chamado ocorrencia, UsuarioDTO autor, List<UsuarioDTO> tecnicos,
+			List<ComentarioDTO> comentarios, TipoChamado tipoOcorrencia) {
 		this.id = ocorrencia.getId();
-		this.titulo_Ocorrencia = ocorrencia.getTitulo_Ocorrencia();
-		this.descricao_Ocorrencia = ocorrencia.getDescricao_Ocorrencia();
+		this.titulo_Ocorrencia = ocorrencia.getTitulo_Chamado();
+		this.descricao_Ocorrencia = ocorrencia.getDescricao_Chamado();
 		this.autor = autor;
 		this.tecnicos = tecnicos;
 		this.tipoOcorrencia = tipoOcorrencia;
@@ -61,7 +61,7 @@ public class OcorrenciaDTO {
 		return dataFechamento;
 	}
 
-	public TipoOcorrencia getTipoOcorrencia() {
+	public TipoChamado getTipoOcorrencia() {
 		return tipoOcorrencia;
 	}
 

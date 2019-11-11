@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id")  
-public class TipoOcorrenciaVeiculo extends TipoOcorrencia {
+public class TipoChamadoVeiculo extends TipoChamado {
 
 	private String tipo = "VEICULO";
 	@Column(name = "placa", length = 7)
@@ -20,11 +20,11 @@ public class TipoOcorrenciaVeiculo extends TipoOcorrencia {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<TagsVeiculo> tags;
 	
-	public TipoOcorrenciaVeiculo(){
+	public TipoChamadoVeiculo(){
 		
 	}
 	
-	public TipoOcorrenciaVeiculo(@Size(min = 7, max = 7) String placa, @NotNull List<TagsVeiculo> tagsVeiculo) {
+	public TipoChamadoVeiculo(@Size(min = 7, max = 7) String placa, @NotNull List<TagsVeiculo> tagsVeiculo) {
 		this.placa = placa;
 		this.tags = tagsVeiculo;
 	}
