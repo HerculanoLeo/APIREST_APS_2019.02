@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import br.com.aplicacaoaps.apirest.models.Perfil;
 import br.com.aplicacaoaps.apirest.models.Usuario;
 
@@ -29,7 +31,7 @@ public class UsuarioForm {
 		this.senha = senha;
 	}
 
-	public Usuario converter() {
+	public Usuario converter(BCryptPasswordEncoder bCrypt) {
 		return new Usuario(nome, email, senha, perfil);
 	}
 

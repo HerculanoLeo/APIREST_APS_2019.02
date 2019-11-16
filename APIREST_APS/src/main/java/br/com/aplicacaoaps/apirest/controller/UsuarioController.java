@@ -9,6 +9,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +38,8 @@ public class UsuarioController {
 //	private ChamadoRepository chamadoRepository;
 	@Autowired
 	private PerfilRepository perfilRepository;
+	@Autowired
+	private BCryptPasswordEncoder bCrypt;
 
 	@GetMapping
 	public List<UsuarioDTO> listarUsuarios() {
@@ -44,6 +48,7 @@ public class UsuarioController {
 		return usuariosDTO;
 	}
 
+	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<UsuarioDTO> buscaUsuarioPorId(@PathVariable Long id) {
 		Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
@@ -54,6 +59,7 @@ public class UsuarioController {
 		return ResponseEntity.notFound().build();
 	}
 
+	@PreAuthorize("hasAnyRole('GERENTE')")
 	@GetMapping("/perfil/{regra}")
 	public ResponseEntity<List<UsuarioDTO>> buscarUsuarioPorPerfil(@PathVariable String regra) {
 		String regraUpperCase = "ROLE_" + regra.toUpperCase();
@@ -72,13 +78,14 @@ public class UsuarioController {
 	@Transactional
 	public ResponseEntity<UsuarioDTO> cadastroUsuario(@RequestBody @Valid UsuarioForm usuarioForm,
 			UriComponentsBuilder uriBuilder) {
-		Usuario usuario = usuarioForm.converter();
+		Usuario usuario = usuarioForm.converter(bCrypt);
 		usuarioRepository.save(usuario);
 		URI uri = uriBuilder.path("/usuario/{id}").buildAndExpand(usuario.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 
 	}
 
+	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<UsuarioDTO> atualizarUsuario(@RequestBody @Valid AtualizaUsuarioForm atualizaUsuarioForm,

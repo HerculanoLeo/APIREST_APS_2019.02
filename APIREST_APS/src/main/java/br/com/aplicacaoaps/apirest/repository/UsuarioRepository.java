@@ -10,5 +10,7 @@ import br.com.aplicacaoaps.apirest.models.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 
 	List<Usuario> findByPerfil(Perfil perfil);
+
+	Usuario findByEmail(String email);
 	
 }

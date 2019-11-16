@@ -1,23 +1,19 @@
 package br.com.aplicacaoaps.apirest.models;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.PrimaryKeyJoinColumn;
 
-@Entity  
-public class TagsVeiculo {
+@Entity
+@PrimaryKeyJoinColumn(name = "id") 
+public class TagsVeiculo extends Tags {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 	private String nome;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

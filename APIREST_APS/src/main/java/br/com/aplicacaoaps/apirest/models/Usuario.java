@@ -6,23 +6,29 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
+	@Transient
+	private BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -31,7 +37,7 @@ public class Usuario implements UserDetails {
 	private String nome;
 	private String senha;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "Usuario_Perfil", 
 	joinColumns = @JoinColumn(name = "id"),
 	inverseJoinColumns = @JoinColumn(name = "perfil_nome"))
@@ -44,7 +50,7 @@ public class Usuario implements UserDetails {
 	public Usuario(@NotBlank String nome, @NotBlank String email, @Size(min = 6) String senha, List<Perfil> perfil) {
 		this.email = email;
 		this.nome = nome;
-		this.senha = senha;
+		this.senha = bcryptEncoder.encode(senha);
 		this.perfil = perfil;
 	}
 
@@ -77,7 +83,7 @@ public class Usuario implements UserDetails {
 	}
 
 	public void setSenha(String senha) {
-		this.senha = senha;
+		this.senha = bcryptEncoder.encode(senha);
 	}
 
 	public List<Perfil> getPerfil() {
