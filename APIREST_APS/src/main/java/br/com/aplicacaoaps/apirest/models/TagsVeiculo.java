@@ -2,7 +2,10 @@ package br.com.aplicacaoaps.apirest.models;
 
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
-
+/**
+ * Classe concreta da "Tags" para percistencia no banco, aqui contém todas as informações referentes a TagsVeiculo
+ *
+ */
 @Entity
 @PrimaryKeyJoinColumn(name = "id") 
 public class TagsVeiculo extends Tags {

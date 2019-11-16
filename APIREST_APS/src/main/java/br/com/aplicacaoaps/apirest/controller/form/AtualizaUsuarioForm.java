@@ -9,7 +9,10 @@ import javax.validation.constraints.NotBlank;
 import br.com.aplicacaoaps.apirest.models.Perfil;
 import br.com.aplicacaoaps.apirest.models.Usuario;
 import br.com.aplicacaoaps.apirest.repository.PerfilRepository;
-
+/**
+ * Classe usada para validar as informações recebidas pelo cliete referente a alteração das insformações do usuario
+ * 
+ */
 public class AtualizaUsuarioForm {
 
 	@NotBlank

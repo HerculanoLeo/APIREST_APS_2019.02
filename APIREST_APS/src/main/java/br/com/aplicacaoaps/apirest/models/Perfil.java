@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import org.springframework.security.core.GrantedAuthority;
-
+/**
+ * Classe modelo para percistencia no banco, aqui contém todas as informações referentes referentes ao perfil(Niveis de Acesso)
+ *
+ */
 @Entity
 public class Perfil implements GrantedAuthority {
 

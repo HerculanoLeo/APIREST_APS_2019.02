@@ -19,7 +19,10 @@ import br.com.aplicacaoaps.apirest.repository.TagsRegionalRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsVeiculoRepository;
 import br.com.aplicacaoaps.apirest.repository.TipoChamadoRepository;
 import br.com.aplicacaoaps.apirest.repository.UsuarioRepository;
-
+/**
+ * Classe usada para popular o banco
+ * 
+ */
 public class PopulaBanco {
 
 	public static void popular(UsuarioRepository usuarioRepository, ChamadoRepository chamadoRepository,
@@ -68,7 +71,6 @@ public class PopulaBanco {
 		chamado1.setAutor(usuarioComum);
 		List<Usuario> tecnicos1 = new ArrayList<Usuario>();
 		tecnicos1.add(usuarioTecnico1);
-		tecnicos1.add(usuarioTecnico2);
 		chamado1.setTecnicos(tecnicos1);
 		chamado1.setTitulo_Chamado("Carro em situação precária "+ "-1");
 		chamado1.setDescricao_Chamado("Carro emitindo fumaça preta e muito barulho do escapamento");
@@ -85,7 +87,6 @@ public class PopulaBanco {
 		listaTagsVeiculo.add(tagVeiculo2);
 		tagsVeiculoRepository.saveAll(listaTagsVeiculo);
 		tipoChamado1.setTags(listaTagsVeiculo);
-		tipoChamadoRepository.save(tipoChamado1);
 
 		chamado1.setTipoChamado(tipoChamado1);
 
@@ -108,15 +109,18 @@ public class PopulaBanco {
 		usuarioRepository.save(usuarioTecnico2);
 		usuarioRepository.save(usuarioGerente);
 
-		comentarioRepository.saveAll(comentariosVeiculo);
 
+		tipoChamadoRepository.save(tipoChamado1);
+
+		comentarioRepository.saveAll(comentariosVeiculo);
+		
 		chamadoRepository.save(chamado1);
 
 		Chamado chamado2 = new Chamado();
 
 		chamado2.setAutor(usuarioComum);
 		List<Usuario> tecnicos2 = new ArrayList<Usuario>();
-		tecnicos2.add(usuarioTecnico1);
+		tecnicos2.add(usuarioTecnico2);
 		tecnicos2.add(usuarioGerente);
 		chamado2.setTecnicos(tecnicos2);
 		chamado2.setTitulo_Chamado("Região com Alagamento "+ "-1");

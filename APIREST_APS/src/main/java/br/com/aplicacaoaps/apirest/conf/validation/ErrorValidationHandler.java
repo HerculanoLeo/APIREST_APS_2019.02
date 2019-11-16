@@ -13,13 +13,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Quando o servidor responder com bad request esta classe ira construir a
+ * resposta usando a classe "ErrDeFormularioDTO" como modelo para mensagem
+ *
+ */
 @RestControllerAdvice
 public class ErrorValidationHandler {
 
 	@Autowired
 	private MessageSource messageSource;
-	
-	
+
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public List<ErroDeFormularioDTO> handle(MethodArgumentNotValidException exception) {
@@ -32,6 +36,5 @@ public class ErrorValidationHandler {
 		});
 		return dto;
 	}
-	
-	
+
 }

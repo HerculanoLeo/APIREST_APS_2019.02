@@ -6,7 +6,10 @@ import org.springframework.data.domain.Page;
 
 import br.com.aplicacaoaps.apirest.models.Chamado;
 import br.com.aplicacaoaps.apirest.models.Status;
-
+/**
+ * Classe usada como modelo para enviar os dados de uma lista de chamados, escondendo informações desnecessarias, como por exemplo a tudo referente ao seu tipoChamado.
+ *
+ */
 public class ChamadoListaDTO {
 	private Long id;
 	private Status status;

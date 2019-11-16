@@ -8,7 +8,10 @@ import javax.validation.constraints.NotNull;
 import br.com.aplicacaoaps.apirest.models.Chamado;
 import br.com.aplicacaoaps.apirest.models.Usuario;
 import br.com.aplicacaoaps.apirest.repository.ChamadoRepository;
-
+/**
+ * Classe usada para validar as informações recebidas pelo cliete referente a adição de tecnicos a um chamado
+ * 
+ */
 public class AdicionaTecnicoForm {
 
 	@NotNull

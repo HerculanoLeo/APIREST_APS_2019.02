@@ -6,11 +6,13 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import br.com.aplicacaoaps.apirest.models.Perfil;
 import br.com.aplicacaoaps.apirest.models.Usuario;
-
+/**
+ * Classe usada para validar as informações recebidas pelo cliete referente a adição de novos usuario por padrão são comuns
+ * a função popula banco já cria os usuarios tecnico e gerente
+ * 
+ */
 public class UsuarioForm {
 
 	@NotBlank
@@ -18,6 +20,7 @@ public class UsuarioForm {
 	@NotBlank
 	private String email;
 	@Size(min = 6, max = 32)
+	@NotBlank
 	private String senha;
 	private List<Perfil> perfil = Arrays.asList(new Perfil("ROLE_COMUM"));
 	
@@ -31,7 +34,7 @@ public class UsuarioForm {
 		this.senha = senha;
 	}
 
-	public Usuario converter(BCryptPasswordEncoder bCrypt) {
+	public Usuario converter() {
 		return new Usuario(nome, email, senha, perfil);
 	}
 

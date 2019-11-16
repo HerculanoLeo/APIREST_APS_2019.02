@@ -7,62 +7,58 @@ import br.com.aplicacaoaps.apirest.models.Chamado;
 import br.com.aplicacaoaps.apirest.models.Status;
 import br.com.aplicacaoaps.apirest.models.TipoChamado;
 
+/**
+ * Classe usada como modelo para enviar os dados do chamados, escondendo
+ * informações sensíveis, como por exemplo a senha do autor
+ * 
+ */
 public class ChamadoDTO {
 	private Long id;
 	private UsuarioDTO autor;
-	private String titulo_Ocorrencia;
-	private String descricao_Ocorrencia;
+	private String titulo_Chamado;
+	private String descricao_Chamado;
 	private List<UsuarioDTO> tecnicos;
-	private TipoChamado tipoOcorrencia;
+	private TipoChamado tipoChamado;
 	private Status status;
 	private List<ComentarioDTO> comentarios;
 	private LocalDateTime dataAbertura;
 	private LocalDateTime dataFechamento;
 
-	public ChamadoDTO(Chamado ocorrencia, UsuarioDTO autor, List<UsuarioDTO> tecnicos,
-			List<ComentarioDTO> comentarios, TipoChamado tipoOcorrencia) {
-		this.id = ocorrencia.getId();
-		this.titulo_Ocorrencia = ocorrencia.getTitulo_Chamado();
-		this.descricao_Ocorrencia = ocorrencia.getDescricao_Chamado();
+	public ChamadoDTO(Chamado chamado, UsuarioDTO autor, List<UsuarioDTO> tecnicos, List<ComentarioDTO> comentarios, TipoChamado tipoChamado) {
+		this.id = chamado.getId();
+		this.titulo_Chamado = chamado.getTitulo_Chamado();
+		this.descricao_Chamado = chamado.getDescricao_Chamado();
 		this.autor = autor;
 		this.tecnicos = tecnicos;
-		this.tipoOcorrencia = tipoOcorrencia;
-		this.status = ocorrencia.getStatus();
+		this.tipoChamado = tipoChamado;
+		this.status = chamado.getStatus();
 		this.comentarios = comentarios;
-		this.dataAbertura = ocorrencia.getDataAbertura();
-		this.dataFechamento = ocorrencia.getDataFechamento();
+		this.dataAbertura = chamado.getDataAbertura();
+		this.dataFechamento = chamado.getDataFechamento();
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public String getTitulo_Ocorrencia() {
-		return titulo_Ocorrencia;
-	}
-
-	public String getDescricao_Ocorrencia() {
-		return descricao_Ocorrencia;
-	}
-
 	public UsuarioDTO getAutor() {
 		return autor;
+	}
+
+	public String getTitulo_Chamado() {
+		return titulo_Chamado;
+	}
+
+	public String getDescricao_Chamado() {
+		return descricao_Chamado;
 	}
 
 	public List<UsuarioDTO> getTecnicos() {
 		return tecnicos;
 	}
 
-	public LocalDateTime getDataAbertura() {
-		return dataAbertura;
-	}
-
-	public LocalDateTime getDataFechamento() {
-		return dataFechamento;
-	}
-
-	public TipoChamado getTipoOcorrencia() {
-		return tipoOcorrencia;
+	public TipoChamado getTipoChamado() {
+		return tipoChamado;
 	}
 
 	public Status getStatus() {
@@ -71,6 +67,14 @@ public class ChamadoDTO {
 
 	public List<ComentarioDTO> getComentarios() {
 		return comentarios;
+	}
+
+	public LocalDateTime getDataAbertura() {
+		return dataAbertura;
+	}
+
+	public LocalDateTime getDataFechamento() {
+		return dataFechamento;
 	}
 
 }

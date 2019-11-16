@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +48,10 @@ import br.com.aplicacaoaps.apirest.repository.TagsRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsVeiculoRepository;
 import br.com.aplicacaoaps.apirest.repository.TipoChamadoRepository;
 
+/**
+ * Classe controller para os chamados, aqui tem os endpoints para acessar as
+ * informações referentes aos chamados EndPoint: /chamado/**
+ */
 @RestController
 @RequestMapping("/chamado")
 public class ChamadosController {
@@ -66,7 +69,11 @@ public class ChamadosController {
 	@Autowired
 	private TagsRepository tagsRepository;
 
-	@PreAuthorize("hasAnyRole('TECNICO', 'GERENTE')")
+	/**
+	 * Retorna json com lista paginada de todos os Chamados
+	 * 
+	 */
+//	@PreAuthorize("hasAnyRole('TECNICO', 'GERENTE')")
 	@GetMapping
 	public ResponseEntity<Page<ChamadoListaDTO>> buscarTodosChamados(Pageable pageable) {
 		Page<Chamado> chamados = chamadoRepository.findAll(pageable);
@@ -77,7 +84,11 @@ public class ChamadosController {
 		}
 	}
 
-	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
+	/**
+	 * Retorna json com lista paginada de todos os Chamados filtrado pelo status e autor(opicional)
+	 * exemplo do endpoint: http://localhost:8080/chamado/status/aberto?autor=1&&page=0&&size=10&&sort=dataAbertura,id,desc
+	 */
+//	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/status/{status}")
 	public ResponseEntity<Page<ChamadoListaDTO>> buscarChamadoPorAutor_Status(@PathVariable String status,
 			Pageable pageable, @RequestParam(required = false, value = "autor") Long autor) {
@@ -89,7 +100,7 @@ public class ChamadosController {
 		} else {
 			Usuario usuario = new Usuario();
 			usuario.setId(autor);
-			chamados = chamadoRepository.findByAutorAndStatus(usuario,Status.valueOf(statusUPPER), pageable);
+			chamados = chamadoRepository.findByAutorAndStatus(usuario, Status.valueOf(statusUPPER), pageable);
 		}
 		if (chamados.isEmpty()) {
 			return ResponseEntity.notFound().build();
@@ -98,28 +109,39 @@ public class ChamadosController {
 		}
 	}
 
-	@PreAuthorize("hasAnyRole('TECNICO', 'GERENTE')")
+	/**
+	 * Retorna json com lista paginada de todos os Chamados do tecnico especifio pelo seu id e pelo status
+	 * Exemplo do endpoint: http://localhost:8080/chamado/tecnico/2/aberto?page=0&&size=100&&sort=dataAbertura,id,desc
+	 */
+//	@PreAuthorize("hasAnyRole('TECNICO', 'GERENTE')")
 	@GetMapping("/tecnico/{id}/{status}")
-	public ResponseEntity<Page<ChamadoListaDTO>> buscarChamadoPorTecnico_Status(@PathVariable Long id, @PathVariable String status, Pageable pageable){
+	public ResponseEntity<Page<ChamadoListaDTO>> buscarChamadoPorTecnico_Status(@PathVariable Long id,
+			@PathVariable String status, Pageable pageable) {
 		String statusUPPER = status.toUpperCase();
 		Usuario usuario = new Usuario();
 		usuario.setId(id);
 		List<Usuario> tecnicos = Arrays.asList(usuario);
-		Page<Chamado> chamados = chamadoRepository.findByTecnicosAndStatus(tecnicos, Status.valueOf(statusUPPER), pageable);
+		Page<Chamado> chamados = chamadoRepository.findByTecnicosAndStatus(tecnicos, Status.valueOf(statusUPPER),
+				pageable);
 		if (chamados.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
 			return ResponseEntity.ok(ChamadoListaDTO.converter(chamados));
 		}
 	}
-	
-	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
+
+	/**
+	 * Retorno detalhado do chamado especificado pelo seu id
+	 * 
+	 */
+//	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<ChamadoDTO> buscaChamadoPorId(@PathVariable Long id) {
-		Optional<TipoChamado> tipoChamadoOptional = tipoChamadoRepository.findById(id);
 		Optional<Chamado> chamadoOptional = chamadoRepository.findById(id);
-		if (chamadoOptional.isPresent() && tipoChamadoOptional.isPresent()) {
+		if (chamadoOptional.isPresent()) {
+			Optional<TipoChamado> tipoChamadoOptional = tipoChamadoRepository.findById(id);
 			Chamado chamado = chamadoOptional.get();
+			chamado.setTipoChamado(null);
 			UsuarioDTO autor = new UsuarioDTO(chamado.getAutor());
 			List<UsuarioDTO> tecnicos = chamado.getTecnicos().stream().map(t -> new UsuarioDTO(t)).collect(Collectors.toList());
 			List<ComentarioDTO> comentarios = chamado.getComentarios().stream().map(c -> new ComentarioDTO(c)).collect(Collectors.toList());
@@ -130,7 +152,11 @@ public class ChamadosController {
 		return ResponseEntity.notFound().build();
 	}
 
-	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
+	/**
+	 * Retorno dos comentarios do chamado especificado pelo seu id
+	 * 
+	 */
+//	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/{id}/comentarios")
 	public List<ComentarioDTO> listarComentariosPorChamadoId(@PathVariable Long id) {
 		List<Comentario> comentarios = comentarioRepository.findByComentarioPorChamado_id(id);
@@ -145,9 +171,47 @@ public class ChamadosController {
 		}
 	}
 
-	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
+	/**
+	 * Gravar um novo chamado
+	 * {
+			"idAutor": "1",
+			"titulo" : "teSTE1",
+			"descricao": "descriçao",
+			"tipo" : "VEICULO",
+			"placa" : "xxx7777",
+			"tagsVeiculo":[
+				{
+					"id":"1"
+				},
+				{
+					"id":"2"
+				}
+			]
+
+		}
+		ou
+		{
+			"idAutor": "1",
+			"titulo" : "teSTE1",
+			"descricao": "descriçao",
+			"tipo" : "REGIONAL",
+			"cep" : "13130130",
+			"tagsRegional":[
+				{
+					"id":"1"
+				},
+				{
+					"id":"2"
+				}
+			]
+		
+		}
+	 * 
+	 */
+//	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@PostMapping
-	public ResponseEntity<ChamadoDTO> gravarChamado(@RequestBody @Valid ChamadoForm chamadoForm, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<ChamadoDTO> gravarChamado(@RequestBody @Valid ChamadoForm chamadoForm,
+			UriComponentsBuilder uriBuilder) {
 		if (chamadoForm.getTipo().equals("VEICULO")) {
 			Chamado chamado = chamadoForm.converterTipoVeiculo(tipoChamadoRepository);
 			chamadoRepository.save(chamado);
@@ -165,9 +229,23 @@ public class ChamadosController {
 		}
 	}
 
-	@PreAuthorize("hasAnyRole('GERENTE')")
+	/**
+	 * Adicionar tecnico ao chamado
+	 * [
+			{
+				“idTecnico”: “”
+			},
+			{
+				“idTecnico”: “”
+			}
+		]
+
+	 * 
+	 */
+//	@PreAuthorize("hasAnyRole('GERENTE')")
 	@PutMapping("/{id}/adicionarTecnico")
-	public ResponseEntity<?> adicionarTecnicosChamado(@RequestBody @Valid List<AdicionaTecnicoForm> listaTecnico, @PathVariable Long id, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<?> adicionarTecnicosChamado(@RequestBody @Valid List<AdicionaTecnicoForm> listaTecnico,
+			@PathVariable Long id, UriComponentsBuilder uriBuilder) {
 		if (AdicionaTecnicoForm.adcionarNoChamado(id, listaTecnico, chamadoRepository)) {
 			URI uri = uriBuilder.path("/{id}").buildAndExpand(id).toUri();
 			return ResponseEntity.created(uri).build();
@@ -175,9 +253,19 @@ public class ChamadosController {
 		return ResponseEntity.badRequest().build();
 	}
 
-	@PreAuthorize("hasAnyRole('TECNICO', 'GERENTE')")
+	/**
+	 * Alterar o chamado referente ao id
+	 * 
+	 * {
+			status” : “FECHADO” (ou outro).
+
+		}
+	 * 
+	 */
+//	@PreAuthorize("hasAnyRole('TECNICO', 'GERENTE')")
 	@PutMapping("/{id}/alteraStatus")
-	public ResponseEntity<?> alteraStatus(@RequestBody @Valid AtualizaStatusForm atualizaStatus, @PathVariable Long id,	UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<?> alteraStatus(@RequestBody @Valid AtualizaStatusForm atualizaStatus, @PathVariable Long id,
+			UriComponentsBuilder uriBuilder) {
 		if (atualizaStatus.alteraStatus(id, chamadoRepository)) {
 			URI uri = uriBuilder.path("/{id}").buildAndExpand(id).toUri();
 			return ResponseEntity.created(uri).build();
@@ -185,9 +273,18 @@ public class ChamadosController {
 		return ResponseEntity.badRequest().build();
 	}
 
-	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
+	/**
+	 * adicionar comomentario a chamado expecificado pelo id
+	 * {
+			"idAutor":"1",
+			"comentario":"Teste atualização do comentario"
+		}
+	 * 
+	 */
+//	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@PutMapping("/{id}/comentarios")
-	public ResponseEntity<?> adcionarComentario(@RequestBody @Valid ComentarioForm comentarioForm,@PathVariable Long id, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<?> adcionarComentario(@RequestBody @Valid ComentarioForm comentarioForm,
+			@PathVariable Long id, UriComponentsBuilder uriBuilder) {
 		if (comentarioForm.adcionaComentario(id, comentarioRepository)) {
 			URI uri = uriBuilder.path("/{id}").buildAndExpand(id).toUri();
 			return ResponseEntity.created(uri).build();
@@ -195,36 +292,51 @@ public class ChamadosController {
 		return ResponseEntity.badRequest().build();
 	}
 
-	@PreAuthorize("hasAnyRole('GERENTE')")
+	/**
+	 * {
+			"nome" : "Vazamento de Oleo",
+			"tipo" : "regional" ou "veiculo"
+		}
+	 * 
+	 */
+//	@PreAuthorize("hasAnyRole('GERENTE')")
 	@PostMapping("/tags")
 	public ResponseEntity<?> gravarTags(@RequestBody @Valid TagForm tagForm, UriComponentsBuilder uriBuilder) {
-		if(tagForm.getTipo().equals("veiculo")) {
+		if (tagForm.getTipo().equals("veiculo")) {
 			TagsVeiculo tag = tagForm.gravarTagVeiculo(tagsVeiculoRepository);
 			URI uri = uriBuilder.path("/{id}").buildAndExpand(tag.getId()).toUri();
 			return ResponseEntity.created(uri).build();
 		}
-		if(tagForm.getTipo().equals("regional")) {
+		if (tagForm.getTipo().equals("regional")) {
 			TagsRegional tag = tagForm.gravarTagRegional(tagsRegionalRepository);
 			URI uri = uriBuilder.path("/{id}").buildAndExpand(tag.getId()).toUri();
 			return ResponseEntity.created(uri).build();
 		} else {
 			return ResponseEntity.badRequest().build();
 		}
-		
+
 	}
-	
-	@PreAuthorize("hasAnyRole('GERENTE')")
+
+	/**
+	 * apaga a tag de acordo com o id
+	 * 
+	 */
+//	@PreAuthorize("hasAnyRole('GERENTE')")
 	@DeleteMapping("/tags/{id}")
 	public ResponseEntity<?> deletarTags(@PathVariable Long id) {
 		Optional<Tags> optional = tagsRepository.findById(id);
-		if(optional.isPresent()) {
-		tagsRepository.deleteById(id);
-		return ResponseEntity.ok().build();
+		if (optional.isPresent()) {
+			tagsRepository.deleteById(id);
+			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.notFound().build();
 	}
-	
-	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
+
+	/**
+	 * Lista todas as tag Regional
+	 * 
+	 */
+//	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/tags/regional")
 	public ResponseEntity<?> listarTagsRegional() {
 		List<TagsRegional> listaTags = tagsRegionalRepository.findAll();
@@ -234,8 +346,12 @@ public class ChamadosController {
 			return ResponseEntity.ok(listaTags);
 		}
 	}
-	
-	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
+
+	/**
+	 * Lista todas as tag Veiculo
+	 * 
+	 */
+//	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/tags/veiculo")
 	public ResponseEntity<?> listarTagsVeiculo() {
 		List<TagsVeiculo> listaTags = tagsVeiculoRepository.findAll();
@@ -245,5 +361,5 @@ public class ChamadosController {
 			return ResponseEntity.ok(listaTags);
 		}
 	}
-	
+
 }

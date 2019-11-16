@@ -17,7 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
+/**
+ * Classe modelo para percistencia no banco, aqui contém todas as informações referentes ao chamado
+ *
+ */
 @Entity
 public class Chamado {
 
@@ -34,7 +37,7 @@ public class Chamado {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Usuario> tecnicos;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	private TipoChamado tipoChamado;
 
 	@Enumerated(EnumType.STRING)

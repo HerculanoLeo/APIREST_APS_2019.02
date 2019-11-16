@@ -1,10 +1,17 @@
 package br.com.aplicacaoaps.apirest.controller.form;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import javax.validation.constraints.NotBlank;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+/**
+ * Classe usada para validar as informações recebidas pelo cliete referente ao login
+ * 
+ */
 public class LoginForm {
 
+	@NotBlank
 	private String email;
+	@NotBlank
 	private String senha;
 	
 	

@@ -15,7 +15,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.aplicacaoaps.apirest.models.token.UsuarioDetailsService;
-
+/**
+ * Classe que configura no Spring a segurança no acesso aos recursos.
+ * 
+ *
+ */
 
 @Configuration
 @EnableWebSecurity
@@ -52,7 +56,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/popularBanco").permitAll()
+				.antMatchers("/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/usuario").permitAll()
+				.antMatchers(HttpMethod.GET, "/usuario").permitAll()
 				.antMatchers(HttpMethod.POST, "/auth").permitAll()
 				.anyRequest().authenticated().and().csrf().disable()
 				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()

@@ -10,7 +10,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.aplicacaoaps.apirest.models.Chamado;
 import br.com.aplicacaoaps.apirest.models.Status;
 import br.com.aplicacaoaps.apirest.models.Usuario;
-
+/**
+ * Interface do Spring para manipulação do banco, referente ao chamado
+ */
 public interface ChamadoRepository extends JpaRepository<Chamado, Long>{
 
 	Optional<Chamado> findById(Long id);

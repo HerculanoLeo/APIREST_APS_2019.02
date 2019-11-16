@@ -10,14 +10,18 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+/**
+ * Filtro que responde como não autorizado, caso o token seja invalido.
+ */
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 
-    @Override
-    public void commence(HttpServletRequest request,
-                         HttpServletResponse response,
-                         AuthenticationException authException) throws IOException {
+	private static final long serialVersionUID = 4223167067144568738L;
 
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-    }
+	@Override
+	public void commence(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException authException) throws IOException {
+
+		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Acesso não Autorizado");
+	}
 }

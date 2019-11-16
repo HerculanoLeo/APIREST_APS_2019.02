@@ -1,5 +1,8 @@
 package br.com.aplicacaoaps.apirest.models.token;
-
+/**
+ * Classe usada para abstratir informações referente a criação do token, como por exemplo a chave para criação hash do token
+ * 
+ */
 public class Constants {
 
     public static final long ACCESS_TOKEN_VALIDITY_SECONDS = 5*60*60;

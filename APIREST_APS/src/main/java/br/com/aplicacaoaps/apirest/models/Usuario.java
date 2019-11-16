@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +19,10 @@ import javax.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+/**
+ * Classe modelo para percistencia no banco, aqui contém todas as informações referentes ao usuario
+ *
+ */
 @Entity
 public class Usuario implements UserDetails {
 
@@ -37,7 +39,7 @@ public class Usuario implements UserDetails {
 	private String nome;
 	private String senha;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(name = "Usuario_Perfil", 
 	joinColumns = @JoinColumn(name = "id"),
 	inverseJoinColumns = @JoinColumn(name = "perfil_nome"))
@@ -47,7 +49,7 @@ public class Usuario implements UserDetails {
 
 	}
 
-	public Usuario(@NotBlank String nome, @NotBlank String email, @Size(min = 6) String senha, List<Perfil> perfil) {
+	public Usuario(@NotBlank String nome, @NotBlank String email,@Size(min = 6) String senha, List<Perfil> perfil) {
 		this.email = email;
 		this.nome = nome;
 		this.senha = bcryptEncoder.encode(senha);
@@ -128,5 +130,6 @@ public class Usuario implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
 
 }

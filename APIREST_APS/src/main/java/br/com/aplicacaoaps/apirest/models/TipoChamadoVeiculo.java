@@ -9,7 +9,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
+/**
+ * Classe concreta da "TipoChamado" para percistencia no banco, aqui contém todas as informações referentes a TipoChamadoVeiculo
+ *
+ */
 @Entity
 @PrimaryKeyJoinColumn(name = "id")  
 public class TipoChamadoVeiculo extends TipoChamado {

@@ -13,7 +13,10 @@ import br.com.aplicacaoaps.apirest.models.TipoChamadoRegional;
 import br.com.aplicacaoaps.apirest.models.TipoChamadoVeiculo;
 import br.com.aplicacaoaps.apirest.models.Usuario;
 import br.com.aplicacaoaps.apirest.repository.TipoChamadoRepository;
-
+/**
+ * Classe usada para validar as informações recebidas pelo cliete referente a criação de um novo chamado
+ * 
+ */
 public class ChamadoForm {
 
 	@NotNull

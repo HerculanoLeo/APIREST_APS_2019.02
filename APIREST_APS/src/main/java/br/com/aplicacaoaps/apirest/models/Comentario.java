@@ -10,7 +10,10 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+/**
+ * Classe modelo para percistencia no banco, aqui contém todas as informações referentes referentes ao comentario
+ *
+ */
 @Entity
 public class Comentario {
 
