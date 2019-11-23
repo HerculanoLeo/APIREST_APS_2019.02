@@ -254,7 +254,7 @@ public class ChamadosController {
 	}
 
 	/**
-	 * Alterar o chamado referente ao id
+	 * Alterar o status chamado referente ao id
 	 * 
 	 * {
 			status” : “FECHADO” (ou outro).
