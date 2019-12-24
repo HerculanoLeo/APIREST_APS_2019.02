@@ -24,7 +24,8 @@ public class ChamadoDTO {
 	private LocalDateTime dataAbertura;
 	private LocalDateTime dataFechamento;
 
-	public ChamadoDTO(Chamado chamado, UsuarioDTO autor, List<UsuarioDTO> tecnicos, List<ComentarioDTO> comentarios, TipoChamado tipoChamado) {
+	public ChamadoDTO(Chamado chamado, UsuarioDTO autor, List<UsuarioDTO> tecnicos, List<ComentarioDTO> comentarios,
+			TipoChamado tipoChamado) {
 		this.id = chamado.getId();
 		this.titulo_Chamado = chamado.getTitulo_Chamado();
 		this.descricao_Chamado = chamado.getDescricao_Chamado();

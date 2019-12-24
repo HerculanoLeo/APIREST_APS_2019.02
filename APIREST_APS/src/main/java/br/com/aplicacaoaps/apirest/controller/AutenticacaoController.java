@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.aplicacaoaps.apirest.conf.security.TokenProvider;
+import br.com.aplicacaoaps.apirest.controller.dto.UsuarioDTO;
 import br.com.aplicacaoaps.apirest.controller.form.LoginForm;
+import br.com.aplicacaoaps.apirest.models.Usuario;
 import br.com.aplicacaoaps.apirest.models.token.AuthToken;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -36,11 +38,11 @@ public class AutenticacaoController {
 	@PostMapping
 	public ResponseEntity<?> autenticar(@RequestBody LoginForm loginUser) throws AuthenticationException {
 
-		final Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getSenha()));
+		final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getSenha()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		final String token = jwtTokenUtil.generateToken(authentication);
-		return ResponseEntity.ok(new AuthToken(token));
+		UsuarioDTO usuarioDTO = new UsuarioDTO((Usuario) authentication.getPrincipal());
+		return ResponseEntity.ok(new AuthToken(token, usuarioDTO));
 	}
 
 }

@@ -17,26 +17,20 @@ import javax.validation.constraints.Size;
 @PrimaryKeyJoinColumn(name = "id")  
 public class TipoChamadoVeiculo extends TipoChamado {
 
-	private String tipo = "VEICULO";
 	@Column(name = "placa", length = 7)
 	private String placa;
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<TagsVeiculo> tags;
 	
-	public TipoChamadoVeiculo(){
-		
-	}
+	public TipoChamadoVeiculo(){}
 	
 	public TipoChamadoVeiculo(@Size(min = 7, max = 7) String placa, @NotNull List<TagsVeiculo> tagsVeiculo) {
 		this.placa = placa;
 		this.tags = tagsVeiculo;
+		this.setTipo("VEICULO");
 	}
 
 
-	public Long getId() {
-		return this.id;
-	}
-	
 	public String getPlaca() {
 		return placa;
 	}
@@ -52,9 +46,4 @@ public class TipoChamadoVeiculo extends TipoChamado {
 	public void setTags(List<TagsVeiculo> tagsVeiculo) {
 		this.tags = tagsVeiculo;
 	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
 }

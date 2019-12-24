@@ -37,7 +37,7 @@ public class Chamado {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Usuario> tecnicos;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private TipoChamado tipoChamado;
 
 	@Enumerated(EnumType.STRING)
@@ -49,8 +49,7 @@ public class Chamado {
 	private LocalDateTime dataAbertura = LocalDateTime.now();
 	private LocalDateTime dataFechamento;
 
-	public Chamado() {
-	}
+	public Chamado() {}
 
 	public Chamado(@NotNull Usuario usuario, @NotBlank String titulo, @NotBlank String descricao,
 			@NotNull TipoChamadoVeiculo tipoOcorrenciaVeiculo) {

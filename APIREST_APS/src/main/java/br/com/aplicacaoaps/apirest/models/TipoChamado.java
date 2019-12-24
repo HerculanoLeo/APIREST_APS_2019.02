@@ -7,18 +7,29 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
+
 /**
- * Classe abstrata para percistencia no banco, aqui contem a abstração do TipoChamado, dessa forma fica facilitado manipular todos os TipoChamados
+ * Classe abstrata para percistencia no banco, aqui contem a abstração do
+ * TipoChamado, dessa forma fica facilitado manipular todos os TipoChamados
  *
  */
-@Entity  
+@Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class TipoChamado {
 
-	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipoChamado_sequence")
-	@SequenceGenerator(name = "tipoChamado_sequence", sequenceName = "tipoChamado_sequence", allocationSize = 1)
-	protected Long id;
-	
-	protected String tipo;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_Tipochamado")
+	@SequenceGenerator(name = "SQ_Tipochamado", sequenceName = "SQ_Tipochamado", allocationSize = 1)
+	private Long id;
+
+	private String tipo;
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
 }

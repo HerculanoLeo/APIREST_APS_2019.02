@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -139,13 +140,12 @@ public class ChamadosController {
 	public ResponseEntity<ChamadoDTO> buscaChamadoPorId(@PathVariable Long id) {
 		Optional<Chamado> chamadoOptional = chamadoRepository.findById(id);
 		if (chamadoOptional.isPresent()) {
-			Optional<TipoChamado> tipoChamadoOptional = tipoChamadoRepository.findById(id);
 			Chamado chamado = chamadoOptional.get();
-			chamado.setTipoChamado(null);
+			Optional<TipoChamado> tipoChamadoOptional = tipoChamadoRepository.findById(id);
+			TipoChamado tipoChamado = (TipoChamado) Hibernate.unproxy(tipoChamadoOptional.get());
 			UsuarioDTO autor = new UsuarioDTO(chamado.getAutor());
 			List<UsuarioDTO> tecnicos = chamado.getTecnicos().stream().map(t -> new UsuarioDTO(t)).collect(Collectors.toList());
 			List<ComentarioDTO> comentarios = chamado.getComentarios().stream().map(c -> new ComentarioDTO(c)).collect(Collectors.toList());
-			TipoChamado tipoChamado = tipoChamadoOptional.get();
 			ChamadoDTO chamadoDTO = new ChamadoDTO(chamado, autor, tecnicos, comentarios, tipoChamado);
 			return ResponseEntity.ok(chamadoDTO);
 		}
@@ -338,7 +338,7 @@ public class ChamadosController {
 	 */
 //	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/tags/regional")
-	public ResponseEntity<?> listarTagsRegional() {
+	public ResponseEntity<List<TagsRegional>> listarTagsRegional() {
 		List<TagsRegional> listaTags = tagsRegionalRepository.findAll();
 		if (listaTags.isEmpty()) {
 			return ResponseEntity.notFound().build();
@@ -353,7 +353,7 @@ public class ChamadosController {
 	 */
 //	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/tags/veiculo")
-	public ResponseEntity<?> listarTagsVeiculo() {
+	public ResponseEntity<List<TagsVeiculo>> listarTagsVeiculo() {
 		List<TagsVeiculo> listaTags = tagsVeiculoRepository.findAll();
 		if (listaTags.isEmpty()) {
 			return ResponseEntity.notFound().build();

@@ -16,26 +16,19 @@ import javax.validation.constraints.Size;
 @PrimaryKeyJoinColumn(name = "id")
 public class TipoChamadoRegional extends TipoChamado {
 
-	private String tipo = "REGIONAL";
 	private int cep;
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<TagsRegional> tags;
 
-	public TipoChamadoRegional() {
-		
-	}
+	public TipoChamadoRegional() {}
 	
 	public TipoChamadoRegional(@Size(min = 8, max = 8) int cep,@NotNull List<TagsRegional> TagsRegional) {
 		this.cep = cep;
 		this.tags = TagsRegional;
+		this.setTipo("REGIONAL");
 	}
 
-
-	public Long getId() {
-		return this.id;
-	}
-
-	public double getCep() {
+	public int getCep() {
 		return cep;
 	}
 
@@ -51,9 +44,4 @@ public class TipoChamadoRegional extends TipoChamado {
 		this.tags = tagsRegional;
 	}
 
-	public String getTipo() {
-		return this.tipo;
-	}
-
-	
 }

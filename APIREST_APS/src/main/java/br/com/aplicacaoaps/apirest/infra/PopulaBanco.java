@@ -75,9 +75,6 @@ public class PopulaBanco {
 		chamado1.setTitulo_Chamado("Carro em situação precária "+ "-1");
 		chamado1.setDescricao_Chamado("Carro emitindo fumaça preta e muito barulho do escapamento");
 
-		TipoChamadoVeiculo tipoChamado1 = new TipoChamadoVeiculo();
-		tipoChamado1.setPlaca("XXX7777");
-
 		TagsVeiculo tagVeiculo1 = new TagsVeiculo();
 		TagsVeiculo tagVeiculo2 = new TagsVeiculo();
 		tagVeiculo1.setNome("Barulho");
@@ -86,7 +83,7 @@ public class PopulaBanco {
 		listaTagsVeiculo.add(tagVeiculo1);
 		listaTagsVeiculo.add(tagVeiculo2);
 		tagsVeiculoRepository.saveAll(listaTagsVeiculo);
-		tipoChamado1.setTags(listaTagsVeiculo);
+		TipoChamadoVeiculo tipoChamado1 = new TipoChamadoVeiculo("XXX7777", listaTagsVeiculo);
 
 		chamado1.setTipoChamado(tipoChamado1);
 
@@ -126,8 +123,6 @@ public class PopulaBanco {
 		chamado2.setTitulo_Chamado("Região com Alagamento "+ "-1");
 		chamado2.setDescricao_Chamado("Bueiros vivem entupidos, causando alagamentos em nosso bairro");
 
-		TipoChamadoRegional tipoChamado2 = new TipoChamadoRegional();
-		tipoChamado2.setCEP(13201000);
 
 		TagsRegional tagsRegional1 = new TagsRegional();
 		TagsRegional tagsRegional2 = new TagsRegional();
@@ -137,8 +132,7 @@ public class PopulaBanco {
 		listaTagsRegional.add(tagsRegional1);
 		listaTagsRegional.add(tagsRegional2);
 		tagsRegionalRepository.saveAll(listaTagsRegional);
-
-		tipoChamado2.setTags(listaTagsRegional);
+		TipoChamadoRegional tipoChamado2 = new TipoChamadoRegional(13201000, listaTagsRegional);
 
 		tipoChamadoRepository.save(tipoChamado2);
 
@@ -170,9 +164,7 @@ public class PopulaBanco {
 			chamado3.setTitulo_Chamado("Carro em situação precária " + i);
 			chamado3.setDescricao_Chamado("Carro emitindo fumaça preta e muito barulho do escapamento");
 
-			TipoChamadoVeiculo tipoChamado3 = new TipoChamadoVeiculo();
-			tipoChamado3.setPlaca("XXX7777");
-			tipoChamado3.setTags(listaTagsVeiculo);
+			TipoChamadoVeiculo tipoChamado3 = new TipoChamadoVeiculo("XXX7777", listaTagsVeiculo);
 			tipoChamadoRepository.save(tipoChamado3);
 
 			chamado3.setTipoChamado(tipoChamado3);
@@ -203,10 +195,7 @@ public class PopulaBanco {
 			chamado4.setTitulo_Chamado("Região com Alagamento " + i);
 			chamado4.setDescricao_Chamado("Bueiros vivem entupidos, causando alagamentos em nosso bairro");
 
-			TipoChamadoRegional tipoChamado4 = new TipoChamadoRegional();
-			tipoChamado4.setCEP(13201000);
-
-			tipoChamado4.setTags(listaTagsRegional);
+			TipoChamadoRegional tipoChamado4 = new TipoChamadoRegional(13201000, listaTagsRegional);
 
 			tipoChamadoRepository.save(tipoChamado4);
 
