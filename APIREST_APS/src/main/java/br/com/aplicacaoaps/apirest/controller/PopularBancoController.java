@@ -16,11 +16,7 @@ import br.com.aplicacaoaps.apirest.repository.TagsRegionalRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsVeiculoRepository;
 import br.com.aplicacaoaps.apirest.repository.TipoChamadoRepository;
 import br.com.aplicacaoaps.apirest.repository.UsuarioRepository;
-/**
- * Controller para popular o banco.
- * Recomendado que faça primeiro, pois é necessario que a tabela perfil esteja populada para que não tenha erros na validação do token
- *
- */
+
 @Controller
 @RequestMapping("/popularBanco")
 public class PopularBancoController {

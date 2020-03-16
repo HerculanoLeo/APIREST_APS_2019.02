@@ -7,10 +7,7 @@ import br.com.aplicacaoaps.apirest.models.Comentario;
 import br.com.aplicacaoaps.apirest.models.Chamado;
 import br.com.aplicacaoaps.apirest.models.Usuario;
 import br.com.aplicacaoaps.apirest.repository.ComentarioRepository;
-/**
- * Classe usada para validar as informações recebidas pelo cliete referente a adição de um comentario no chamado
- * 
- */
+
 public class ComentarioForm {
 
 	@NotNull

@@ -8,11 +8,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 
-/**
- * Classe abstrata para percistencia no banco, aqui contem a abstração do
- * TipoChamado, dessa forma fica facilitado manipular todos os TipoChamados
- *
- */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class TipoChamado {

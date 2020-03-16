@@ -8,11 +8,7 @@ import javax.validation.constraints.Size;
 
 import br.com.aplicacaoaps.apirest.models.Perfil;
 import br.com.aplicacaoaps.apirest.models.Usuario;
-/**
- * Classe usada para validar as informações recebidas pelo cliete referente a adição de novos usuario por padrão são comuns
- * a função popula banco já cria os usuarios tecnico e gerente
- * 
- */
+
 public class UsuarioForm {
 
 	@NotBlank

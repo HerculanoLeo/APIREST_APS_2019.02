@@ -7,10 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 
 import br.com.aplicacaoaps.apirest.models.Usuario;
-/**
- * Classe usada como modelo para enviar os dados do usuario, escondendo informações sensíveis, como por exemplo a sua senha
- * 
- */
+
 public class UsuarioDTO {
 	private Long id;
 	private String nome;

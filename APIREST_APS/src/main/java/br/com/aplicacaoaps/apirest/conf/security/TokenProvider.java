@@ -24,9 +24,6 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-/**
- * Classe responsavel por fornecer o token
- */
 @Service
 public class TokenProvider implements Serializable {
 

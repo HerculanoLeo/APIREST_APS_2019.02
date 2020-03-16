@@ -7,10 +7,7 @@ import br.com.aplicacaoaps.apirest.models.TagsRegional;
 import br.com.aplicacaoaps.apirest.models.TagsVeiculo;
 import br.com.aplicacaoaps.apirest.repository.TagsRegionalRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsVeiculoRepository;
-/**
- * Classe usada para validar as informações recebidas pelo cliete referente a adição de novas tags
- * 
- */
+
 public class TagForm {
 
 	@NotBlank

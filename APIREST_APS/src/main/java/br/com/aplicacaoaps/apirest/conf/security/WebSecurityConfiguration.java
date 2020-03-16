@@ -15,11 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.aplicacaoaps.apirest.models.token.UsuarioDetailsService;
-/**
- * Classe que configura no Spring a segurança no acesso aos recursos.
- * 
- *
- */
 
 @Configuration
 @EnableWebSecurity

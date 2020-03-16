@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import org.hibernate.Hibernate;
@@ -31,7 +32,8 @@ import br.com.aplicacaoaps.apirest.controller.dto.ComentarioDTO;
 import br.com.aplicacaoaps.apirest.controller.dto.UsuarioDTO;
 import br.com.aplicacaoaps.apirest.controller.form.AdicionaTecnicoForm;
 import br.com.aplicacaoaps.apirest.controller.form.AtualizaStatusForm;
-import br.com.aplicacaoaps.apirest.controller.form.ChamadoForm;
+import br.com.aplicacaoaps.apirest.controller.form.ChamadoFormVeiculo;
+import br.com.aplicacaoaps.apirest.controller.form.ChamadoRegionalForm;
 import br.com.aplicacaoaps.apirest.controller.form.ComentarioForm;
 import br.com.aplicacaoaps.apirest.controller.form.TagForm;
 import br.com.aplicacaoaps.apirest.models.Chamado;
@@ -49,10 +51,6 @@ import br.com.aplicacaoaps.apirest.repository.TagsRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsVeiculoRepository;
 import br.com.aplicacaoaps.apirest.repository.TipoChamadoRepository;
 
-/**
- * Classe controller para os chamados, aqui tem os endpoints para acessar as
- * informações referentes aos chamados EndPoint: /chamado/**
- */
 @RestController
 @RequestMapping("/chamado")
 public class ChamadosController {
@@ -70,10 +68,6 @@ public class ChamadosController {
 	@Autowired
 	private TagsRepository tagsRepository;
 
-	/**
-	 * Retorna json com lista paginada de todos os Chamados
-	 * 
-	 */
 //	@PreAuthorize("hasAnyRole('TECNICO', 'GERENTE')")
 	@GetMapping
 	public ResponseEntity<Page<ChamadoListaDTO>> buscarTodosChamados(Pageable pageable) {
@@ -85,15 +79,10 @@ public class ChamadosController {
 		}
 	}
 
-	/**
-	 * Retorna json com lista paginada de todos os Chamados filtrado pelo status e autor(opicional)
-	 * exemplo do endpoint: http://localhost:8080/chamado/status/aberto?autor=1&&page=0&&size=10&&sort=dataAbertura,id,desc
-	 */
 //	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/status/{status}")
 	public ResponseEntity<Page<ChamadoListaDTO>> buscarChamadoPorAutor_Status(@PathVariable String status,
 			Pageable pageable, @RequestParam(required = false, value = "autor") Long autor) {
-		System.out.println(autor);
 		String statusUPPER = status.toUpperCase();
 		Page<Chamado> chamados;
 		if (autor == null) {
@@ -110,10 +99,6 @@ public class ChamadosController {
 		}
 	}
 
-	/**
-	 * Retorna json com lista paginada de todos os Chamados do tecnico especifio pelo seu id e pelo status
-	 * Exemplo do endpoint: http://localhost:8080/chamado/tecnico/2/aberto?page=0&&size=100&&sort=dataAbertura,id,desc
-	 */
 //	@PreAuthorize("hasAnyRole('TECNICO', 'GERENTE')")
 	@GetMapping("/tecnico/{id}/{status}")
 	public ResponseEntity<Page<ChamadoListaDTO>> buscarChamadoPorTecnico_Status(@PathVariable Long id,
@@ -131,10 +116,6 @@ public class ChamadosController {
 		}
 	}
 
-	/**
-	 * Retorno detalhado do chamado especificado pelo seu id
-	 * 
-	 */
 //	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<ChamadoDTO> buscaChamadoPorId(@PathVariable Long id) {
@@ -149,13 +130,9 @@ public class ChamadosController {
 			ChamadoDTO chamadoDTO = new ChamadoDTO(chamado, autor, tecnicos, comentarios, tipoChamado);
 			return ResponseEntity.ok(chamadoDTO);
 		}
-		return ResponseEntity.notFound().build();
+		throw new EntityNotFoundException("Chamado de id: "+ id + " não foi encontrado");
 	}
 
-	/**
-	 * Retorno dos comentarios do chamado especificado pelo seu id
-	 * 
-	 */
 //	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/{id}/comentarios")
 	public List<ComentarioDTO> listarComentariosPorChamadoId(@PathVariable Long id) {
@@ -171,77 +148,25 @@ public class ChamadosController {
 		}
 	}
 
-	/**
-	 * Gravar um novo chamado
-	 * {
-			"idAutor": "1",
-			"titulo" : "teSTE1",
-			"descricao": "descriçao",
-			"tipo" : "VEICULO",
-			"placa" : "xxx7777",
-			"tagsVeiculo":[
-				{
-					"id":"1"
-				},
-				{
-					"id":"2"
-				}
-			]
-
-		}
-		ou
-		{
-			"idAutor": "1",
-			"titulo" : "teSTE1",
-			"descricao": "descriçao",
-			"tipo" : "REGIONAL",
-			"cep" : "13130130",
-			"tagsRegional":[
-				{
-					"id":"1"
-				},
-				{
-					"id":"2"
-				}
-			]
-		
-		}
-	 * 
-	 */
 //	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
-	@PostMapping
-	public ResponseEntity<ChamadoDTO> gravarChamado(@RequestBody @Valid ChamadoForm chamadoForm,
+	@PostMapping("/veiculo")
+	public ResponseEntity<ChamadoDTO> gravarChamadoVeiculo(@RequestBody @Valid ChamadoFormVeiculo form,
 			UriComponentsBuilder uriBuilder) {
-		if (chamadoForm.getTipo().equals("VEICULO")) {
-			Chamado chamado = chamadoForm.converterTipoVeiculo(tipoChamadoRepository);
+			Chamado chamado = form.converterTipoVeiculo(tipoChamadoRepository);
 			chamadoRepository.save(chamado);
 			URI uri = uriBuilder.path("/{id}").buildAndExpand(chamado.getId()).toUri();
 			return ResponseEntity.created(uri).build();
-		}
-		if (chamadoForm.getTipo().equals("REGIONAL")) {
-			System.out.println(chamadoForm.getTipo());
-			Chamado ocorrencia = chamadoForm.converterTipoRegional(tipoChamadoRepository);
+	}
+
+//	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
+	@PostMapping("/regional")
+	public ResponseEntity<ChamadoDTO> gravarChamadoRegional(@RequestBody @Valid ChamadoRegionalForm form, UriComponentsBuilder uriBuilder){
+			Chamado ocorrencia = form.converterTipoRegional(tipoChamadoRepository);
 			chamadoRepository.save(ocorrencia);
 			URI uri = uriBuilder.path("/{id}").buildAndExpand(ocorrencia.getId()).toUri();
 			return ResponseEntity.created(uri).build();
-		} else {
-			return ResponseEntity.badRequest().build();
-		}
 	}
-
-	/**
-	 * Adicionar tecnico ao chamado
-	 * [
-			{
-				“idTecnico”: “”
-			},
-			{
-				“idTecnico”: “”
-			}
-		]
-
-	 * 
-	 */
+	
 //	@PreAuthorize("hasAnyRole('GERENTE')")
 	@PutMapping("/{id}/adicionarTecnico")
 	public ResponseEntity<?> adicionarTecnicosChamado(@RequestBody @Valid List<AdicionaTecnicoForm> listaTecnico,
@@ -253,15 +178,6 @@ public class ChamadosController {
 		return ResponseEntity.badRequest().build();
 	}
 
-	/**
-	 * Alterar o status chamado referente ao id
-	 * 
-	 * {
-			status” : “FECHADO” (ou outro).
-
-		}
-	 * 
-	 */
 //	@PreAuthorize("hasAnyRole('TECNICO', 'GERENTE')")
 	@PutMapping("/{id}/alteraStatus")
 	public ResponseEntity<?> alteraStatus(@RequestBody @Valid AtualizaStatusForm atualizaStatus, @PathVariable Long id,
@@ -273,14 +189,6 @@ public class ChamadosController {
 		return ResponseEntity.badRequest().build();
 	}
 
-	/**
-	 * adicionar comomentario a chamado expecificado pelo id
-	 * {
-			"idAutor":"1",
-			"comentario":"Teste atualização do comentario"
-		}
-	 * 
-	 */
 //	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@PutMapping("/{id}/comentarios")
 	public ResponseEntity<?> adcionarComentario(@RequestBody @Valid ComentarioForm comentarioForm,
@@ -292,13 +200,6 @@ public class ChamadosController {
 		return ResponseEntity.badRequest().build();
 	}
 
-	/**
-	 * {
-			"nome" : "Vazamento de Oleo",
-			"tipo" : "regional" ou "veiculo"
-		}
-	 * 
-	 */
 //	@PreAuthorize("hasAnyRole('GERENTE')")
 	@PostMapping("/tags")
 	public ResponseEntity<?> gravarTags(@RequestBody @Valid TagForm tagForm, UriComponentsBuilder uriBuilder) {
@@ -317,10 +218,6 @@ public class ChamadosController {
 
 	}
 
-	/**
-	 * apaga a tag de acordo com o id
-	 * 
-	 */
 //	@PreAuthorize("hasAnyRole('GERENTE')")
 	@DeleteMapping("/tags/{id}")
 	public ResponseEntity<?> deletarTags(@PathVariable Long id) {
@@ -332,10 +229,6 @@ public class ChamadosController {
 		return ResponseEntity.notFound().build();
 	}
 
-	/**
-	 * Lista todas as tag Regional
-	 * 
-	 */
 //	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/tags/regional")
 	public ResponseEntity<List<TagsRegional>> listarTagsRegional() {
@@ -347,10 +240,6 @@ public class ChamadosController {
 		}
 	}
 
-	/**
-	 * Lista todas as tag Veiculo
-	 * 
-	 */
 //	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/tags/veiculo")
 	public ResponseEntity<List<TagsVeiculo>> listarTagsVeiculo() {

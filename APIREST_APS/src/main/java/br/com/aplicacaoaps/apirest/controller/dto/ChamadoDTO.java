@@ -7,11 +7,6 @@ import br.com.aplicacaoaps.apirest.models.Chamado;
 import br.com.aplicacaoaps.apirest.models.Status;
 import br.com.aplicacaoaps.apirest.models.TipoChamado;
 
-/**
- * Classe usada como modelo para enviar os dados do chamados, escondendo
- * informações sensíveis, como por exemplo a senha do autor
- * 
- */
 public class ChamadoDTO {
 	private Long id;
 	private UsuarioDTO autor;

@@ -2,15 +2,18 @@ package br.com.aplicacaoaps.apirest.models;
 
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
-/**
- * Classe concreta da "Tags" para percistencia no banco, aqui contém todas as informações referentes a TagsRegional
- *
- */
+
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class TagsRegional extends Tags{
 
-	private String nome;
+public TagsRegional(Long id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
 
 	public Long getId() {
 		return id;

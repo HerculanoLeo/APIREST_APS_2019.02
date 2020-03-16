@@ -1,4 +1,4 @@
-package br.com.aplicacaoaps.apirest.conf.validation;
+package br.com.aplicacaoaps.apirest.conf.validation.old;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +11,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-/**
- * Quando o servidor responder com bad request esta classe ira construir a
- * resposta usando a classe "ErrDeFormularioDTO" como modelo para mensagem
- *
- */
-@RestControllerAdvice
+//@RestControllerAdvice
 public class ErrorValidationHandler {
 
 	@Autowired

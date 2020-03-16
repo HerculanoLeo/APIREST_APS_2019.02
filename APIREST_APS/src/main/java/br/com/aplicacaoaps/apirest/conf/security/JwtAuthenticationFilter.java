@@ -19,12 +19,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.aplicacaoaps.apirest.models.token.UsuarioDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 
-/**
- * Classe Filtro que intercepta todas as requisições, valida ou cria o Token,
- * difinindo o nivel de acesso que a requisição vai ter.
- */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
@@ -49,6 +46,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				logger.warn("the token is expired and not valid anymore", e);
 			} catch (SignatureException e) {
 				logger.error("Authentication Failed. Username or Password not valid.");
+			} catch (MalformedJwtException e) {
+				logger.error("Authentication Failed. Token not valid.");
 			}
 		} else {
 			logger.warn("couldn't find bearer string, will ignore the header");

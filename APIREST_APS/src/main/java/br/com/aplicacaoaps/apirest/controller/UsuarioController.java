@@ -25,10 +25,6 @@ import br.com.aplicacaoaps.apirest.models.Usuario;
 import br.com.aplicacaoaps.apirest.repository.PerfilRepository;
 import br.com.aplicacaoaps.apirest.repository.UsuarioRepository;
 
-/**
- * Classe controller para os usuarios, aqui tem os endpoints para acessar as
- * informações referentes aos usuarios EndPoint: /usuario/**
- */
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -40,11 +36,6 @@ public class UsuarioController {
 	@Autowired
 	private PerfilRepository perfilRepository;
 
-	/**
-	 * Retorna JSon contendo a lista de Usuarios
-	 * 
-	 * 
-	 */
 	@PreAuthorize("hasAnyRole('GERENTE')")
 	@GetMapping
 	public List<UsuarioDTO> listarUsuarios() {
@@ -53,11 +44,6 @@ public class UsuarioController {
 		return usuariosDTO;
 	}
 
-	/**
-	 * 
-	 * Retorna JSon contendo a informações do Usuarios pelo id
-	 * exeplo do endpoint: http://localhost:8080/usuario/1
-	 */
 	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<UsuarioDTO> buscaUsuarioPorId(@PathVariable Long id) {
@@ -69,11 +55,6 @@ public class UsuarioController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	/**
-	 * Retorna JSon ontendo a lista de Usuarios filtrado pelo perfil
-	 * exeplo do endpoint: http://localhost:8080/usuario/perfil/tecnico
-	 * regra = comum, tecnico ou gerente 
-	 */
 	@PreAuthorize("hasAnyRole('GERENTE')")
 	@GetMapping("/perfil/{regra}")
 	public ResponseEntity<List<UsuarioDTO>> buscarUsuarioPorPerfil(@PathVariable String regra) {
@@ -89,15 +70,6 @@ public class UsuarioController {
 		}
 	}
 	
-	/**
-	 * Cadastra o usuario via post, o json precisa estar assim:
-	 * {
-			"nome" : "nome",
-			"email": "email",
-			"senha": "senha"
-		}
-	 * 
-	 */
 	@PostMapping
 	@Transactional
 	public ResponseEntity<UsuarioDTO> cadastroUsuario(@RequestBody @Valid UsuarioForm usuarioForm,
@@ -109,10 +81,6 @@ public class UsuarioController {
 
 	}
 	
-	/**
-	 * 
-	 * Aqui seria o endpoint para aterar os dados do usuario definido pelo id
-	 */
 //	@PreAuthorize("hasAnyRole('COMUM', 'TECNICO', 'GERENTE')")
 //	@PutMapping("/{id}")
 //	@Transactional

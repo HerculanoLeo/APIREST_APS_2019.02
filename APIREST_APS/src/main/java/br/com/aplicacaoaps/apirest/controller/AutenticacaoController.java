@@ -1,9 +1,6 @@
 package br.com.aplicacaoaps.apirest.controller;
 
-/**
- * Classe controller para autenticação, cliente fara o post do username e password para validar e receber o token
- * EndPoint: /auth
- */
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +33,16 @@ public class AutenticacaoController {
 	private TokenProvider jwtTokenUtil;
 
 	@PostMapping
-	public ResponseEntity<?> autenticar(@RequestBody LoginForm loginUser) throws AuthenticationException {
-
-		final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getSenha()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		final String token = jwtTokenUtil.generateToken(authentication);
-		UsuarioDTO usuarioDTO = new UsuarioDTO((Usuario) authentication.getPrincipal());
-		return ResponseEntity.ok(new AuthToken(token, usuarioDTO));
+	public ResponseEntity<?> autenticar(@RequestBody @Valid LoginForm loginUser){
+		try {
+			final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getSenha()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			final String token = jwtTokenUtil.generateToken(authentication);
+			UsuarioDTO usuarioDTO = new UsuarioDTO((Usuario) authentication.getPrincipal());
+			return ResponseEntity.ok(new AuthToken(token, usuarioDTO));
+		} catch (AuthenticationException e) {
+			throw e;
+		}
 	}
 
 }

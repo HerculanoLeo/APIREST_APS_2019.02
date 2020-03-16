@@ -3,10 +3,7 @@ package br.com.aplicacaoaps.apirest.controller.dto;
 import java.time.LocalDateTime;
 
 import br.com.aplicacaoaps.apirest.models.Comentario;
-/**
- * Classe usada como modelo para enviar os dados de uma comentario do chamado, escondendo informações sensíveis, como por exemplo a senha do autor.
- *
- */
+
 public class ComentarioDTO {
 
 	private Long id_Comentario;

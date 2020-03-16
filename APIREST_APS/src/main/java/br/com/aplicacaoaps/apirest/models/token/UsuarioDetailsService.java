@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.aplicacaoaps.apirest.models.Usuario;
 import br.com.aplicacaoaps.apirest.repository.UsuarioRepository;
-/**
- * Classe que implemeta a UserDetailsService, especificação para recupera as infromações de username e password
- * 
- */
+
 @Service
 public class UsuarioDetailsService implements UserDetailsService {
 

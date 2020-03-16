@@ -1,11 +1,5 @@
-package br.com.aplicacaoaps.apirest.conf.validation;
+package br.com.aplicacaoaps.apirest.conf.validation.old;
 
-/**
- * Classe modelo para enviar as informações que serão repondidas caso alguma dado que o
- * cliente enviou esteja errado.
- * 
- *
- */
 public class ErroDeFormularioDTO {
 
 	String campo;

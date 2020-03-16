@@ -7,10 +7,7 @@ import javax.validation.constraints.NotNull;
 import br.com.aplicacaoaps.apirest.models.Chamado;
 import br.com.aplicacaoaps.apirest.models.Status;
 import br.com.aplicacaoaps.apirest.repository.ChamadoRepository;
-/**
- * Classe usada para validar as informações recebidas pelo cliete referente a alteração do status chamado
- * 
- */
+
 public class AtualizaStatusForm {
 
 	@NotNull

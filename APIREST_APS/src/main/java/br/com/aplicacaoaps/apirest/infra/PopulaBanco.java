@@ -19,10 +19,7 @@ import br.com.aplicacaoaps.apirest.repository.TagsRegionalRepository;
 import br.com.aplicacaoaps.apirest.repository.TagsVeiculoRepository;
 import br.com.aplicacaoaps.apirest.repository.TipoChamadoRepository;
 import br.com.aplicacaoaps.apirest.repository.UsuarioRepository;
-/**
- * Classe usada para popular o banco
- * 
- */
+
 public class PopulaBanco {
 
 	public static void popular(UsuarioRepository usuarioRepository, ChamadoRepository chamadoRepository,
